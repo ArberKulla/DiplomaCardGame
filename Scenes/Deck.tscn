@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://cowi7ndpcwtkc"]
+
+[ext_resource type="Texture2D" uid="uid://bpvuxie2jb58t" path="res://Assets/Deck.png" id="1_wa2i3"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_r5tyt"]
+size = Vector2(117, 176)
+
+[node name="Deck" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0.999998, -0.999996)
+scale = Vector2(0.633333, 0.671698)
+texture = ExtResource("1_wa2i3")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0.5, -2)
+shape = SubResource("RectangleShape2D_r5tyt")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = -11.0
+offset_top = 85.0
+offset_right = 29.0
+offset_bottom = 125.0
+scale = Vector2(2, 2)
+text = "0"

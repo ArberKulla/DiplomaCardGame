@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://u8s6vh3cymh1"]
+
+[ext_resource type="Texture2D" uid="uid://c62rvcgf8rvfd" path="res://Assets/CardSlot.png" id="1_huh5i"]
+
+[node name="CardSlot" type="Node2D"]
+
+[node name="CardSlotImage" type="Sprite2D" parent="."]
+position = Vector2(0.999998, -5.50001)
+scale = Vector2(0.733333, 0.713208)
+texture = ExtResource("1_huh5i")

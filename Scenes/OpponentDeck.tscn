@@ -1,0 +1,18 @@
+[gd_scene load_steps=2 format=3 uid="uid://b7d5r3014i275"]
+
+[ext_resource type="Texture2D" uid="uid://bpvuxie2jb58t" path="res://Assets/Deck.png" id="1_uhopi"]
+
+[node name="OpponentDeck" type="Node2D"]
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(0.999998, -0.999996)
+scale = Vector2(0.633333, 0.671698)
+texture = ExtResource("1_uhopi")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="."]
+offset_left = -11.0
+offset_top = 85.0
+offset_right = 29.0
+offset_bottom = 125.0
+scale = Vector2(2, 2)
+text = "0"
