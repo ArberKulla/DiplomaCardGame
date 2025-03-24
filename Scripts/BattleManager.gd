@@ -78,21 +78,21 @@ func attack(attacking_card,defending_card,attacker):
 	
 	if defending_card.attack<attacking_card.attack:
 		if attacker=="Opponent":
+			await destroy_card(defending_card,"Player")
 			await update_health(attack_difference,"Player")
-			destroy_card(defending_card,"Player")
 		else:
+			await destroy_card(defending_card,"Opponent")
 			await update_health(attack_difference,"Opponent")
-			destroy_card(defending_card,"Opponent")
 	elif defending_card.attack>attacking_card.attack:
 		if attacker=="Opponent":
+			await destroy_card(attacking_card,"Opponent")
 			await update_health(attack_difference,"Opponent")
-			destroy_card(attacking_card,"Opponent")
 		else:
+			await destroy_card(attacking_card,"Player")
 			await update_health(attack_difference,"Player")
-			destroy_card(attacking_card,"Player")
 	else:
 		destroy_card(defending_card,defender)
-		destroy_card(attacking_card,attacker)
+		await destroy_card(attacking_card,attacker)
 
 
 
@@ -137,9 +137,6 @@ func destroy_card(card,owner):
 	tween.tween_property(card,"position",new_pos,$"..".DEFAULT_CARD_MOVE_SPEED)
 	await wait(0.15)
 	card.z_index=0
-	
-	await wait (1)
-
 
 
 
