@@ -1,11 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://eskby32y5s5s"]
+[gd_scene load_steps=7 format=3 uid="uid://dk6w5cjm7uq0w"]
 
-[ext_resource type="Script" path="res://Scripts/Card.gd" id="1_acd3p"]
-[ext_resource type="Texture2D" uid="uid://bvqb5fylq4tmj" path="res://Assets/pbptw9.png" id="2_7uhcf"]
-[ext_resource type="Texture2D" uid="uid://bpvuxie2jb58t" path="res://Assets/Deck.png" id="3_a0jrq"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_2j86b"]
-size = Vector2(135, 192)
+[ext_resource type="Script" path="res://Scripts/OpponentCard.gd" id="1_4irfx"]
+[ext_resource type="Texture2D" uid="uid://bpvuxie2jb58t" path="res://Assets/Deck.png" id="2_s7oyf"]
+[ext_resource type="Texture2D" uid="uid://bvqb5fylq4tmj" path="res://Assets/pbptw9.png" id="3_gut3r"]
 
 [sub_resource type="Animation" id="Animation_dxtl8"]
 length = 0.001
@@ -164,25 +161,19 @@ _data = {
 }
 
 [node name="Card" type="Node2D"]
-position = Vector2(1160, 810)
-script = ExtResource("1_acd3p")
+position = Vector2(120, 110)
+script = ExtResource("1_4irfx")
 
 [node name="CardBackImage" type="Sprite2D" parent="."]
 position = Vector2(-0.499996, -1)
 scale = Vector2(0.744444, 0.720755)
-texture = ExtResource("3_a0jrq")
+texture = ExtResource("2_s7oyf")
 
 [node name="CardImage" type="Sprite2D" parent="."]
 z_index = -1
 position = Vector2(-2, -1)
 scale = Vector2(0.35, 0.5)
-texture = ExtResource("2_7uhcf")
-
-[node name="Area2D" type="Area2D" parent="."]
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-1.5, -1)
-shape = SubResource("RectangleShape2D_2j86b")
+texture = ExtResource("3_gut3r")
 
 [node name="Attack" type="RichTextLabel" parent="."]
 modulate = Color(0, 0, 0, 0)
@@ -212,6 +203,3 @@ text = "12"
 libraries = {
 "": SubResource("AnimationLibrary_6noy0")
 }
-
-[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
-[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

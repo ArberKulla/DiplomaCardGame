@@ -96,6 +96,8 @@ func finish_drag():
 			card_being_dragged.get_node("Area2D/CollisionShape2D").disabled=true
 			card_slot_found.card_in_slot=true
 			normal_summoned_this_turn=true
+			$"../BattleManager".player_cards_on_battlefield.append(card_being_dragged)
+
 			card_being_dragged = null
 			is_hovering_on_card=false
 			return
@@ -114,3 +116,6 @@ func get_card_with_highest_z_index(cards):
 			highest_z_index = current_card.z_index
 	
 	return highest_z_card
+
+func reset_normal_summon():
+	normal_summoned_this_turn=false

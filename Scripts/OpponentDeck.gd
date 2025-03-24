@@ -1,21 +1,21 @@
 extends Node2D
 
-const CARD_SCENE_PATH = "res://Scenes/Card.tscn"
-var player_deck = ["Demon","Knight","Demon"]
+const CARD_SCENE_PATH = "res://Scenes/OpponentCard.tscn"
+var opponent_deck = ["Archer","Archer","Archer","Archer","Archer","Archer","Archer","Archer","Archer","Archer","Archer","Archer"]
 var card_database_reference
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	player_deck.shuffle()
-	$RichTextLabel.text = str(player_deck.size())
+	opponent_deck.shuffle()
+	$RichTextLabel.text = str(opponent_deck.size())
 	card_database_reference= preload("res://Scripts/CardDatabase.gd")
 	draw_card(5)
 
 func draw_card(count):
 	for i in range(count):
-		var card_drawn_name = player_deck[0]
-		player_deck.erase(card_drawn_name)
-		$RichTextLabel.text = str(player_deck.size())
+		var card_drawn_name = opponent_deck[0]
+		opponent_deck.erase(card_drawn_name)
+		$RichTextLabel.text = str(opponent_deck.size())
 		var card_scene = preload(CARD_SCENE_PATH)
 		var new_card = card_scene.instantiate()
 
@@ -29,11 +29,9 @@ func draw_card(count):
 
 		$"../CardManager".add_child(new_card)
 		new_card.name="Card"
-		$"../PlayerHand".add_card_to_hand(new_card, $"..".CARD_DRAW_SPEED)
-		new_card.get_node("Flip").play("flip")
+		$"../OpponentHand".add_card_to_hand(new_card, $"..".CARD_DRAW_SPEED)
 		
-		if player_deck.size()==0:
-			$Area2D/CollisionShape2D.disabled=true
+		if opponent_deck.size()==0:
 			$Sprite2D.visible=false
 			$RichTextLabel.visible=false
 			break

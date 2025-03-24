@@ -1,5 +1,5 @@
 const CARDS = {
-	"Knight" : [2,3],
-	"Archer" : [12,4],
-	"Demon" : [1,2,"res://Assets/pbptw9.png","Monster"],
+	"Knight" :[300,2,"res://Assets/pbptw9.png","Monster"],
+	"Archer" : [500,2,"res://Assets/pbptw9.png","Monster"],
+	"Demon" : [1000,2,"res://Assets/pbptw9.png","Monster"],
 }
