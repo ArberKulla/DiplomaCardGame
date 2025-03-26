@@ -13,6 +13,8 @@ func _ready() -> void:
 
 func draw_card(count):
 	for i in range(count):
+		if opponent_deck.size()==0:
+			return
 		var card_drawn_name = opponent_deck[0]
 		opponent_deck.erase(card_drawn_name)
 		$RichTextLabel.text = str(opponent_deck.size())

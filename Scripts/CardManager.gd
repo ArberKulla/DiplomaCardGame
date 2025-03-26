@@ -9,6 +9,7 @@ var is_hovering_on_card
 var player_hand_reference
 var default_scale
 var normal_summoned_this_turn = false
+var selected_card
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -53,11 +54,16 @@ func on_left_click_released():
 		finish_drag()
 
 func on_hovered_over_card(card):
+	if card.card_slot_card_is_in:
+		return
 	if !is_hovering_on_card:
 		is_hovering_on_card=true
 		highlight_card(card,true)
 
 func on_hovered_off_card(card):
+	if card in $"../PlayerGraveyard".cards_inside:
+		return
+	
 	if !card.card_slot_card_is_in:
 		if !card_being_dragged:
 			highlight_card(card,false)
@@ -75,6 +81,40 @@ func highlight_card(card,hovered):
 		card.scale = Vector2(default_scale,default_scale)
 		card.z_index = 1
 
+func card_clicked(card):
+	if card.card_slot_card_is_in:
+		if card.attack_count==0 || $"../BattleManager".current_turn_player=="Opponent":
+			return
+		
+		if $"../BattleManager".opponent_card_on_battlefield.size()==0:
+			$"../BattleManager".direct_attack(card,"Player")
+		else:
+			select_card_for_battle(card)
+		
+		return
+	else:
+		start_drag(card)
+
+func select_card_for_battle(card):
+	if selected_card:
+		if selected_card==card:
+			unselect_card(selected_card)
+		else:
+			unselect_card(selected_card)
+			select_card(card)
+	else:
+		select_card(card)
+
+func unselect_card(card):
+	if card:
+		card.position.y+=20
+		selected_card=null
+
+func select_card(card):
+	if card:
+		card.position.y-=20
+		selected_card=card
+
 func start_drag(card):
 	card_being_dragged = card
 	card.scale = Vector2(default_scale,default_scale)
@@ -84,7 +124,7 @@ func finish_drag():
 	var card_slot_found = raycast_check_for_card_slot()
 	if card_slot_found and not card_slot_found.card_in_slot:
 		if card_being_dragged.card_type == card_slot_found.card_slot_type:
-			if card_being_dragged.card_type == "Monster" and normal_summoned_this_turn:
+			if card_being_dragged.card_type == "Monster" and normal_summoned_this_turn or $"../BattleManager".current_turn_player!="Player":
 				player_hand_reference.add_card_to_hand(card_being_dragged,$"..".DEFAULT_CARD_MOVE_SPEED)
 				card_being_dragged = null
 				return
@@ -93,8 +133,8 @@ func finish_drag():
 			card_being_dragged.card_slot_card_is_in = card_slot_found
 			player_hand_reference.remove_card_from_hand(card_being_dragged)
 			card_being_dragged.position = card_slot_found.position
-			card_being_dragged.get_node("Area2D/CollisionShape2D").disabled=true
 			card_slot_found.card_in_slot=true
+			card_slot_found.get_node("Area2D/CollisionShape2D").disabled=true
 			normal_summoned_this_turn=true
 			$"../BattleManager".player_cards_on_battlefield.append(card_being_dragged)
 

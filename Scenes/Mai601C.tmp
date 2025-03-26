@@ -53,7 +53,6 @@ script = ExtResource("14_uhabh")
 z_index = -5
 position = Vector2(240, 340)
 scale = Vector2(0.6, 0.6)
-script = ExtResource("7_55nq0")
 
 [node name="BattleManager" type="Node" parent="."]
 script = ExtResource("13_q8xmg")
@@ -142,6 +141,7 @@ script = ExtResource("9_2ufql")
 z_index = -5
 position = Vector2(530, 460)
 scale = Vector2(0.6, 0.6)
+script = ExtResource("3_o3iot")
 
 [node name="PlayerF1" parent="CardSlots" instance=ExtResource("2_8w2j5")]
 z_index = -5
@@ -153,61 +153,51 @@ script = ExtResource("10_fhnbc")
 z_index = -5
 position = Vector2(440, 340)
 scale = Vector2(0.6, 0.6)
-script = ExtResource("3_o3iot")
 
 [node name="EnemyM2" parent="CardSlots" instance=ExtResource("9_3b5gn")]
 z_index = -5
 position = Vector2(530, 340)
 scale = Vector2(0.6, 0.6)
-script = ExtResource("3_o3iot")
 
 [node name="EnemyM3" parent="CardSlots" instance=ExtResource("9_3b5gn")]
 z_index = -5
 position = Vector2(620, 340)
 scale = Vector2(0.6, 0.6)
-script = ExtResource("3_o3iot")
 
 [node name="EnemyM4" parent="CardSlots" instance=ExtResource("9_3b5gn")]
 z_index = -5
 position = Vector2(710, 340)
 scale = Vector2(0.6, 0.6)
-script = ExtResource("3_o3iot")
 
 [node name="EnemyM5" parent="CardSlots" instance=ExtResource("9_3b5gn")]
 z_index = -5
 position = Vector2(800, 340)
 scale = Vector2(0.6, 0.6)
-script = ExtResource("3_o3iot")
 
 [node name="EnemyS1" parent="CardSlots" instance=ExtResource("9_3b5gn")]
 z_index = -5
 position = Vector2(440, 220)
 scale = Vector2(0.6, 0.6)
-script = ExtResource("9_2ufql")
 
 [node name="EnemyS2" parent="CardSlots" instance=ExtResource("9_3b5gn")]
 z_index = -5
 position = Vector2(530, 220)
 scale = Vector2(0.6, 0.6)
-script = ExtResource("9_2ufql")
 
 [node name="EnemyS3" parent="CardSlots" instance=ExtResource("9_3b5gn")]
 z_index = -5
 position = Vector2(620, 220)
 scale = Vector2(0.6, 0.6)
-script = ExtResource("9_2ufql")
 
 [node name="EnemyS4" parent="CardSlots" instance=ExtResource("9_3b5gn")]
 z_index = -5
 position = Vector2(710, 220)
 scale = Vector2(0.6, 0.6)
-script = ExtResource("9_2ufql")
 
 [node name="EnemyS5" parent="CardSlots" instance=ExtResource("9_3b5gn")]
 z_index = -5
 position = Vector2(800, 220)
 scale = Vector2(0.6, 0.6)
-script = ExtResource("9_2ufql")
 
 [node name="EnemyAce1" parent="CardSlots" instance=ExtResource("9_3b5gn")]
 z_index = -5
@@ -218,7 +208,6 @@ scale = Vector2(0.6, 0.6)
 z_index = -5
 position = Vector2(890, 340)
 scale = Vector2(0.6, 0.6)
-script = ExtResource("10_fhnbc")
 
 [node name="OpponentHealth" type="RichTextLabel" parent="."]
 offset_left = 1040.0

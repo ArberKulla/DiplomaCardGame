@@ -10,6 +10,7 @@ var opponent_card_on_battlefield = []
 var player_cards_on_battlefield = []
 var player_health = 0
 var opponent_health = 0
+var current_turn_player = "Player"
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -27,15 +28,21 @@ func _ready() -> void:
 	empty_monster_card_slots.append($"../CardSlots/EnemyM5")
 
 func _on_button_pressed() -> void:
+	end_player_turn()
 	opponent_turn()
 
-func opponent_turn() -> void:
+func end_player_turn():
+	$"../CardManager".unselect_card($"../CardManager".selected_card)
+	current_turn_player="Opponent"
 	$"../EndTurnButton".disabled=true
 	$"../EndTurnButton".visible=false
 	
-	if $"../OpponentDeck".opponent_deck.size()!=0:
-		$"../OpponentDeck".draw_card(1)
-		await wait(1)
+	for card in player_cards_on_battlefield:
+		card.attack_count = card.max_attack_count
+
+func opponent_turn() -> void:	
+	$"../OpponentDeck".draw_card(1)
+	await wait(1)
 
 	
 	if empty_monster_card_slots.size()!=0:
@@ -60,6 +67,11 @@ func opponent_turn() -> void:
 func attack(attacking_card,defending_card,attacker):
 	if !defending_card:
 		return
+		
+	if attacking_card.attack_count==0:
+		return;
+	attacking_card.attack_count-=1
+	
 	attacking_card.z_index=5
 	var defender = "Player"
 	if attacker != "Opponent":
@@ -73,6 +85,9 @@ func attack(attacking_card,defending_card,attacker):
 	tween2.tween_property(attacking_card,"position",attacking_card.card_slot_card_is_in.position,$"..".DEFAULT_CARD_MOVE_SPEED)
 	attacking_card.z_index=0
 	
+	
+	if attacker=="Player":
+		$"../CardManager".unselect_card($"../CardManager".selected_card)
 	
 	var attack_difference = min(defending_card.attack,attacking_card.attack)-max(defending_card.attack,attacking_card.attack)
 	
@@ -97,6 +112,9 @@ func attack(attacking_card,defending_card,attacker):
 
 
 func direct_attack(attacking_card,attacker):
+	if attacking_card.attack_count==0:
+		return;
+	attacking_card.attack_count-=1
 	var new_pos_y
 	
 	if attacker=="Opponent":
@@ -121,17 +139,36 @@ func direct_attack(attacking_card,attacker):
 	
 	await wait(0.5)
 
+func enemy_card_select(card):
+	var defending_card = card;
+	var attacking_card = $"../CardManager".selected_card;
+	
+	if !attacking_card:
+		return;
+	
+	if attacking_card.card_type == "Monster":
+		if defending_card in opponent_card_on_battlefield:
+			attack(attacking_card,defending_card,"Player")
+
 
 func destroy_card(card,owner):
 	var new_pos
 	if owner == "Player":
+		$"../CardManager".unselect_card(card)
+		card.get_node("Area2D/CollisionShape2D").disabled=true
 		new_pos = $"../PlayerGraveyard".position
-		player_cards_on_battlefield.erase(card)
+		$"../PlayerGraveyard".cards_inside.append(card)
+		if card in player_cards_on_battlefield:
+			player_cards_on_battlefield.erase(card)
+			card.card_slot_card_is_in.get_node("Area2D/CollisionShape2D").disabled=false
 	else:
 		new_pos = $"../OpponentGraveyard".position
-		opponent_card_on_battlefield.erase(card)
+		$"../OpponentGraveyard".cards_inside.append(card)
+		if card in opponent_card_on_battlefield:
+			opponent_card_on_battlefield.erase(card)
 	
-	
+	card.card_slot_card_is_in.card_in_slot = false
+	card.card_slot_card_is_in = null
 	card.z_index=5
 	var tween = get_tree().create_tween()
 	tween.tween_property(card,"position",new_pos,$"..".DEFAULT_CARD_MOVE_SPEED)
@@ -166,6 +203,9 @@ func try_play_best_monster() -> void:
 	opponent_card_on_battlefield.append(best_monster_card)
 
 func end_opponent_turn() -> void:
+	current_turn_player="Player"
+	for card in opponent_card_on_battlefield:
+		card.attack_count = card.max_attack_count
 	$"../EndTurnButton".disabled=false
 	$"../EndTurnButton".visible=true
 	$"../CardManager".reset_normal_summon()
