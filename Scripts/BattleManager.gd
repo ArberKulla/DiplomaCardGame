@@ -46,18 +46,18 @@ func opponent_turn() -> void:
 
 	
 	if empty_monster_card_slots.size()!=0:
-		await try_play_best_monster()
+		try_play_best_monster()
 		await wait(1)
 	
-	if opponent_card_on_battlefield.size()!=0:
-		var highest_attack_opponent_cards = sort_cards_highest_attack(opponent_card_on_battlefield)
-		var enemy_cards_to_attack = opponent_card_on_battlefield.duplicate()
+	if get_attackable_cards(opponent_card_on_battlefield).size()!=0:
+		var highest_attack_opponent_cards = sort_cards_highest_attack(get_attackable_cards(opponent_card_on_battlefield))
+		var player_cards_to_attack = get_attackable_cards(player_cards_on_battlefield).duplicate()
 		
 		for card in highest_attack_opponent_cards:
-			if player_cards_on_battlefield.size() == 0:
+			if player_cards_to_attack.size() == 0:
 				await direct_attack(card,"Opponent")
 			else:
-				var attacked_card = get_highest_attack_under(player_cards_on_battlefield,card.attack)
+				var attacked_card = get_highest_attack_under(player_cards_to_attack,card.attack)
 				await attack(card,attacked_card,"Opponent")
 		
 	
@@ -151,9 +151,9 @@ func enemy_card_select(card):
 			attack(attacking_card,defending_card,"Player")
 
 
-func destroy_card(card,owner):
+func destroy_card(card,card_owner):
 	var new_pos
-	if owner == "Player":
+	if card_owner == "Player":
 		$"../CardManager".unselect_card(card)
 		card.get_node("Area2D/CollisionShape2D").disabled=true
 		new_pos = $"../PlayerGraveyard".position
@@ -253,6 +253,67 @@ func update_health(ammount,reciever):
 		
 		$"../OpponentHealth".text=str(opponent_health)
 
+func on_card_play(card,card_owner):
+	var effects = card.get_node("Effect").text.split(".")
+	for effect in effects:
+		if effect.contains("On Play"):
+			card_effect_handle(card,card_owner,effect.split(": ")[1])
+			await wait(0.5)
+	
+	if card.card_type == "Spell":
+		destroy_card(card,card_owner)
+
+func card_effect_handle(card,card_owner,effect):
+	var number_regex = RegEx.new()
+	number_regex.compile("^\\d+$")
+	
+	if effect.contains("Destroy"):
+		var target = effect.split(" ")[2]
+		var target_name = "Player"
+		var target_cards = player_cards_on_battlefield
+		if target.contains("opponent"):
+			target_name = "Opponent"
+			target_cards = opponent_card_on_battlefield
+		
+		var query_term = ""
+		for i in range(3,effect.split(" ").size()):
+			query_term+=effect.split(" ")[i]+" "
+		
+		var found_cards = find_cards_with_query(target_cards,query_term)
+		
+		if number_regex.search(effect.split(" ")[1]):
+			var number_of_targets = effect.split(" ")[1].to_int()
+			print(number_of_targets)
+		elif effect.split(" ")[1].contains("all"):
+			for target_card in found_cards:
+				destroy_card(target_card,target_name)
+
+func find_cards_with_query(cards,query_term):
+	var cards_found = []
+	var query = {
+	"card_type" = "",
+	"type" = "",
+	"attack" = "",
+	"defense" = "",
+	"effect" = "",
+	"category" = ""
+	}
+	
+	if query_term.contains("monster"):
+		query.card_type="Monster"
+	elif query_term.contains("spell"):
+		query.card_type="Spell"
+	elif query_term.contains("trap"):
+		query.card_type="Trap"
+	
+	for card in cards:
+		for key in query.keys():
+			if query[key] != "":
+				if card.get(key) == query[key]:
+					cards_found.append(card)
+	
+	return cards_found
+
 
 func game_won(reciever):
 	if reciever=="Player":
@@ -260,6 +321,19 @@ func game_won(reciever):
 	else:
 		print("You Lose")
 
+func get_attackable_cards(field):
+	var attackable_cards = []
+	for card in field:
+		if card.card_type == "Monster" || card.card_type == "Ace":
+			attackable_cards.append(card)
+	return attackable_cards
+	
+func get_magic_cards(field):
+	var magic_cards = []
+	for card in field:
+		if card.card_type == "Spell" || card.card_type == "Trap":
+			magic_cards.append(card)
+	return magic_cards
 
 func sort_cards_highest_attack(cards):
 	var sorted_array = cards.duplicate()  # Create a copy to avoid modifying the original array

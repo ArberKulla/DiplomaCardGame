@@ -4,6 +4,9 @@
 [ext_resource type="Texture2D" uid="uid://bpvuxie2jb58t" path="res://Assets/Deck.png" id="2_s7oyf"]
 [ext_resource type="Texture2D" uid="uid://bvqb5fylq4tmj" path="res://Assets/pbptw9.png" id="3_gut3r"]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_u0d4h"]
+size = Vector2(133, 192)
+
 [sub_resource type="Animation" id="Animation_dxtl8"]
 length = 0.001
 tracks/0/type = "value"
@@ -78,6 +81,18 @@ tracks/5/keys = {
 "update": 1,
 "values": [-1]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Effect:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0, 0, 0)]
+}
 
 [sub_resource type="Animation" id="Animation_xcbfq"]
 resource_name = "flip"
@@ -115,7 +130,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(0.744444, 0.720755), Vector2(0.1, 0.721), Vector2(0.738889, 0.721)]
+"values": [Vector2(0.75, 0.72), Vector2(0.1, 0.75), Vector2(0.75, 0.7)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -139,7 +154,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(0.35, 0.5), Vector2(0.0442708, 0.5), Vector2(0.34375, 0.5)]
+"values": [Vector2(1, 1), Vector2(0.223958, 1.00195), Vector2(1, 1)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -153,15 +168,24 @@ tracks/5/keys = {
 "update": 1,
 "values": [-1, 0]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("Effect:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0.0666667, 0.133333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0, 0, 0, 0), Color(0, 0, 0, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_6noy0"]
 _data = {
 "RESET": SubResource("Animation_dxtl8"),
 "flip": SubResource("Animation_xcbfq")
 }
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_u0d4h"]
-size = Vector2(133, 192)
 
 [node name="Card" type="Node2D"]
 position = Vector2(120, 110)
@@ -177,6 +201,14 @@ z_index = -1
 position = Vector2(-2, -1)
 scale = Vector2(0.35, 0.5)
 texture = ExtResource("3_gut3r")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 8
+collision_mask = 8
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1.5, -2)
+shape = SubResource("RectangleShape2D_u0d4h")
 
 [node name="Attack" type="RichTextLabel" parent="."]
 modulate = Color(0, 0, 0, 0)
@@ -202,15 +234,14 @@ offset_right = 80.0
 offset_bottom = -56.0
 text = "12"
 
+[node name="Effect" type="RichTextLabel" parent="."]
+modulate = Color(0, 0, 0, 0)
+offset_left = -66.0
+offset_top = 25.0
+offset_right = 62.0
+offset_bottom = 93.0
+
 [node name="Flip" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_6noy0")
 }
-
-[node name="Area2D" type="Area2D" parent="."]
-collision_layer = 8
-collision_mask = 8
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-1.5, -2)
-shape = SubResource("RectangleShape2D_u0d4h")

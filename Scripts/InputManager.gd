@@ -12,15 +12,15 @@ var deck_reference
 
 func _ready() -> void:
 	card_manager_reference=$"../CardManager"
-	deck_reference=$"../Deck"
+	deck_reference= $"../Deck"
 
 func _input(event):
 	if event is InputEventMouseButton:
 		if Input.is_action_pressed("left_click"):
-			emit_signal("left_mouse_button_clicked")
+			left_mouse_button_clicked.emit()
 			raycast_at_cursor()
 		elif Input.is_action_pressed("right_click") or Input.is_action_just_released("left_click"):
-			emit_signal("left_mouse_button_released")
+			left_mouse_button_released.emit()
 
 func raycast_at_cursor():
 	var space_state = get_world_2d().direct_space_state

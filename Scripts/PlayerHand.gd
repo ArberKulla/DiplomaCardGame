@@ -33,7 +33,3 @@ func remove_card_from_hand(card):
 	if card in player_hand:
 		player_hand.erase(card)
 		update_hand_position($"..".DEFAULT_CARD_MOVE_SPEED)
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass

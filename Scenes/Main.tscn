@@ -23,7 +23,7 @@ script = ExtResource("1_fii40")
 [node name="CardManager" type="Node2D" parent="."]
 script = ExtResource("1_5x80x")
 
-[node name="Deck" parent="." instance=ExtResource("5_1icsq")]
+[node name="PlayerDeck" parent="." instance=ExtResource("5_1icsq")]
 position = Vector2(1160, 810)
 scale = Vector2(0.8, 0.8)
 script = ExtResource("6_it4tu")
