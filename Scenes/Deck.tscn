@@ -20,7 +20,7 @@ collision_mask = 4
 position = Vector2(0.5, -2)
 shape = SubResource("RectangleShape2D_r5tyt")
 
-[node name="RichTextLabel" type="RichTextLabel" parent="."]
+[node name="CardCount" type="RichTextLabel" parent="."]
 offset_left = -11.0
 offset_top = 85.0
 offset_right = 29.0

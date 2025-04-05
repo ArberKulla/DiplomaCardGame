@@ -1,0 +1,110 @@
+[gd_scene load_steps=10 format=3 uid="uid://bn565oj2pe7k7"]
+
+[ext_resource type="Script" path="res://Scripts/OpponentField.gd" id="1_hn3lo"]
+[ext_resource type="PackedScene" uid="uid://b7d5r3014i275" path="res://Scenes/OpponentDeck.tscn" id="2_bhioq"]
+[ext_resource type="Script" path="res://Scripts/OpponentDeck.gd" id="3_d7bcj"]
+[ext_resource type="Script" path="res://Scripts/OpponentHand.gd" id="4_11i2q"]
+[ext_resource type="PackedScene" uid="uid://u8s6vh3cymh1" path="res://Scenes/EnemyCardSlot.tscn" id="5_y4aqw"]
+[ext_resource type="Script" path="res://Scripts/GraveyardCardSlot.gd" id="6_bwhsn"]
+[ext_resource type="Script" path="res://Scripts/MonsterCardSlot.gd" id="7_uirc3"]
+[ext_resource type="Script" path="res://Scripts/MagicCardSlot.gd" id="8_skr63"]
+[ext_resource type="Script" path="res://Scripts/FieldCardSlot.gd" id="9_7kx07"]
+
+[node name="OpponentField" type="Node2D"]
+script = ExtResource("1_hn3lo")
+
+[node name="CardManager" type="Node2D" parent="."]
+
+[node name="OpponentDeck" parent="." instance=ExtResource("2_bhioq")]
+position = Vector2(120, 110)
+scale = Vector2(0.8, 0.8)
+script = ExtResource("3_d7bcj")
+
+[node name="OpponentHand" type="Node2D" parent="."]
+position = Vector2(7, 11)
+script = ExtResource("4_11i2q")
+
+[node name="Graveyard" parent="." instance=ExtResource("5_y4aqw")]
+z_index = -5
+position = Vector2(240, 340)
+scale = Vector2(0.6, 0.6)
+script = ExtResource("6_bwhsn")
+
+[node name="M1" parent="." instance=ExtResource("5_y4aqw")]
+z_index = -5
+position = Vector2(440, 340)
+scale = Vector2(0.6, 0.6)
+script = ExtResource("7_uirc3")
+
+[node name="M2" parent="." instance=ExtResource("5_y4aqw")]
+z_index = -5
+position = Vector2(530, 340)
+scale = Vector2(0.6, 0.6)
+script = ExtResource("7_uirc3")
+
+[node name="M3" parent="." instance=ExtResource("5_y4aqw")]
+z_index = -5
+position = Vector2(620, 340)
+scale = Vector2(0.6, 0.6)
+script = ExtResource("7_uirc3")
+
+[node name="M4" parent="." instance=ExtResource("5_y4aqw")]
+z_index = -5
+position = Vector2(710, 340)
+scale = Vector2(0.6, 0.6)
+script = ExtResource("7_uirc3")
+
+[node name="M5" parent="." instance=ExtResource("5_y4aqw")]
+z_index = -5
+position = Vector2(800, 340)
+scale = Vector2(0.6, 0.6)
+script = ExtResource("7_uirc3")
+
+[node name="S1" parent="." instance=ExtResource("5_y4aqw")]
+z_index = -5
+position = Vector2(440, 220)
+scale = Vector2(0.6, 0.6)
+script = ExtResource("8_skr63")
+
+[node name="S2" parent="." instance=ExtResource("5_y4aqw")]
+z_index = -5
+position = Vector2(530, 220)
+scale = Vector2(0.6, 0.6)
+script = ExtResource("8_skr63")
+
+[node name="S3" parent="." instance=ExtResource("5_y4aqw")]
+z_index = -5
+position = Vector2(620, 220)
+scale = Vector2(0.6, 0.6)
+script = ExtResource("8_skr63")
+
+[node name="S4" parent="." instance=ExtResource("5_y4aqw")]
+z_index = -5
+position = Vector2(710, 220)
+scale = Vector2(0.6, 0.6)
+script = ExtResource("8_skr63")
+
+[node name="S5" parent="." instance=ExtResource("5_y4aqw")]
+z_index = -5
+position = Vector2(800, 220)
+scale = Vector2(0.6, 0.6)
+script = ExtResource("8_skr63")
+
+[node name="F1" parent="." instance=ExtResource("5_y4aqw")]
+z_index = -5
+position = Vector2(890, 340)
+scale = Vector2(0.6, 0.6)
+script = ExtResource("9_7kx07")
+
+[node name="Ace1" parent="." instance=ExtResource("5_y4aqw")]
+z_index = -5
+position = Vector2(710, 460)
+scale = Vector2(0.6, 0.6)
+
+[node name="Health" type="RichTextLabel" parent="."]
+offset_left = 1040.0
+offset_top = 70.0
+offset_right = 1080.0
+offset_bottom = 110.0
+scale = Vector2(2, 2)
+text = "0"

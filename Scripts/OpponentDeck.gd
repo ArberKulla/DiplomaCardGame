@@ -1,18 +1,16 @@
 extends Node2D
+class_name OpponentDeck
 
-
-const CARD_WIDTH = 135.0
-const CARD_HEIGHT = 192.0
-const CARD_SCENE_PATH = "res://Scenes/OpponentCard.tscn"
-var opponent_deck = ["Archer","Archer","Archer","Archer","Archer","Archer","Archer","Archer","Archer","Archer","Archer","Archer"]
+var opponent_deck
 var card_database_reference
+
+@onready var card_count = $CardCount
+@onready var image = $Sprite2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	opponent_deck.shuffle()
-	$RichTextLabel.text = str(opponent_deck.size())
-	card_database_reference= preload("res://Scripts/CardDatabase.gd")
-	draw_card(5)
+	Global.opponent_deck = self
+	card_database_reference= CardDatabase.new()
 
 func draw_card(count):
 	for i in range(count):
@@ -20,10 +18,13 @@ func draw_card(count):
 			return
 		var card_drawn_name = opponent_deck[0]
 		opponent_deck.erase(card_drawn_name)
-		$RichTextLabel.text = str(opponent_deck.size())
-		var card_scene = preload(CARD_SCENE_PATH)
+		card_count.text = str(opponent_deck.size())
+		var card_scene = preload(Global.CARD_SCENE_PATH_OPPONENT)
 		var new_card = card_scene.instantiate()
+		Global.card_manager.add_child(new_card)
+		new_card.name="Card"
 		
+		new_card.hand_array_position = i
 		new_card.card_type = str(card_database_reference.CARDS[card_drawn_name]["type"])
 		if new_card.card_type=="Monster":
 			new_card.get_node("Attack").text = str(card_database_reference.CARDS[card_drawn_name]["attack"])
@@ -35,14 +36,13 @@ func draw_card(count):
 		var card_image_path = str(card_database_reference.CARDS[card_drawn_name]["image"])
 		var card_texture = load(card_image_path)
 		var card_image = card_texture.get_image()
-		card_image.resize(CARD_WIDTH, CARD_HEIGHT)
+		card_image.resize(Global.CARD_WIDTH, Global.CARD_HEIGHT)
 		new_card.get_node("CardImage").texture = ImageTexture.create_from_image(card_image)
 		
-		$"../CardManager".add_child(new_card)
-		new_card.name="Card"
-		$"../OpponentHand".add_card_to_hand(new_card, $"..".CARD_DRAW_SPEED)
+
+		Global.opponent_hand.add_card_to_hand(new_card, Global.CARD_DRAW_SPEED)
 		
 		if opponent_deck.size()==0:
-			$Sprite2D.visible=false
-			$RichTextLabel.visible=false
+			image.visible=false
+			card_count.visible=false
 			break

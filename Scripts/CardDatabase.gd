@@ -1,3 +1,5 @@
+class_name CardDatabase
+
 const CARDS = {
 	"Knight": {"attack": 300, "defense": 2, "image": "res://Assets/pbptw9.png", "type": "Monster","effect":"None"},
 	"Archer": {"attack": 500, "defense": 2, "image": "res://Assets/pbptw9.png", "type": "Monster","effect":"None"},
