@@ -20,6 +20,7 @@ func _process(_delta: float) -> void:
 	if card_being_dragged:
 		var mouse_pos = get_global_mouse_position()
 		card_being_dragged.position = Vector2(clamp(mouse_pos.x,0,screen_size.x),clamp(mouse_pos.y,0,screen_size.y))
+		card_being_dragged.z_index = 10
 
 func raycast_check_for_card():
 	var space_state = get_world_2d().direct_space_state
@@ -83,12 +84,12 @@ func highlight_card(card,hovered):
 
 func card_clicked(card):
 	if card.card_slot_card_is_in:
-		if card.attack_count==0 || Global.battle_manager.current_turn_player=="Opponent":
+		if card.attack_count==0 || Global.battle_manager.current_turn_player==Global.ENTITY_ENUM.OPPONENT:
 			return
 		
 		
-		if Global.battle_manager.get_attackable_cards(Global.battle_manager.opponent_cards_on_battlefield).size()==0 && card.card_type=="Monster":
-			Global.battle_manager.direct_attack(card,"Player")
+		if Global.battle_manager.get_attackable_cards(Global.battle_manager.opponent_cards_on_battlefield).size()==0 && card.card_type==Global.CARD_TYPE_ENUM.MONSTER:
+			Global.battle_manager.direct_attack(card,Global.ENTITY_ENUM.PLAYER)
 		else:
 			select_card_for_battle(card)
 		
@@ -122,22 +123,24 @@ func start_drag(card):
 
 func finish_drag():
 	card_being_dragged.scale = Vector2(default_scale*1.1,default_scale*1.1)
+	card_being_dragged.z_index = 1
 	var card_slot_found = raycast_check_for_card_slot()
 	if card_slot_found and not card_slot_found.card_in_slot:
-		if card_slot_found.card_slot_type.contains(card_being_dragged.card_type):
-			if (card_being_dragged.card_type == "Monster" and normal_summoned_this_turn) or Global.battle_manager.current_turn_player!="Player":
+		if card_slot_found.card_slot_type.has(card_being_dragged.card_type):
+			if (card_being_dragged.card_type == Global.CARD_TYPE_ENUM.MONSTER and normal_summoned_this_turn) or Global.battle_manager.current_turn_player!=Global.ENTITY_ENUM.PLAYER:
 				Global.player_hand.add_card_to_hand(card_being_dragged,Global.DEFAULT_CARD_MOVE_SPEED)
 				card_being_dragged = null
 				return
 			
-			if card_being_dragged.card_type == "Monster":
+			if card_being_dragged.card_type == Global.CARD_TYPE_ENUM.MONSTER:
 				normal_summoned_this_turn=true
 			
 			
 			
 			var player_id = multiplayer.get_unique_id
 			play_card_here_and_for_opponent(player_id,card_being_dragged,card_being_dragged.hand_array_position,card_slot_found.get_path())
-			rpc("play_card_here_and_for_opponent",player_id,card_being_dragged,card_being_dragged.hand_array_position,card_slot_found.get_path())
+			if Global.battle_manager.is_multiplayer_game:
+				rpc("play_card_here_and_for_opponent",player_id,card_being_dragged,card_being_dragged.hand_array_position,card_slot_found.get_path())
 			card_being_dragged=null
 			return
 	Global.player_hand.add_card_to_hand(card_being_dragged,Global.DEFAULT_CARD_MOVE_SPEED)
@@ -165,7 +168,7 @@ func play_card_player(card,card_slot):
 	card.position = card_slot.position
 	card_slot.get_node("Area2D/CollisionShape2D").disabled=true
 	Global.battle_manager.player_cards_on_battlefield.append(card)
-	Global.battle_manager.on_card_play(card,"Player")
+	Global.battle_manager.on_card_play(card,Global.ENTITY_ENUM.PLAYER)
 
 
 func play_opponent_card(card,card_slot):

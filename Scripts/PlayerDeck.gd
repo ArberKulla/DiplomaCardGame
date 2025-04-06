@@ -2,7 +2,6 @@ extends Node2D
 class_name PlayerDeck
 
 var player_deck
-var card_database_reference
 
 @onready var card_count = $CardCount
 @onready var collision = $Area2D/CollisionShape2D
@@ -11,7 +10,6 @@ var card_database_reference
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Global.player_deck = self
-	card_database_reference= CardDatabase.new()
 
 func draw_mutliplayer(count):
 	var player_id = multiplayer.get_unique_id
@@ -53,18 +51,18 @@ func create_card(card_drawn_name):
 	new_card.name="Card"
 	
 	new_card.card_name = card_drawn_name
-	new_card.card_type = str(card_database_reference.CARDS[card_drawn_name]["type"])
-	if new_card.card_type=="Monster" || new_card.card_type=="Ace":
-		new_card.get_node("Attack").text = str(card_database_reference.CARDS[card_drawn_name]["attack"])
-		new_card.attack = card_database_reference.CARDS[card_drawn_name]["attack"]
-		new_card.get_node("Defense").text = str(card_database_reference.CARDS[card_drawn_name]["defense"])
-		new_card.defense = card_database_reference.CARDS[card_drawn_name]["defense"]
+	new_card.card_type = Global.card_database.CARDS[card_drawn_name]["type"]
+	if new_card.card_type==Global.CARD_TYPE_ENUM.MONSTER || new_card.card_type==Global.CARD_TYPE_ENUM.ACE:
+		new_card.get_node("Attack").text = str(Global.card_database.CARDS[card_drawn_name]["attack"])
+		new_card.attack = Global.card_database.CARDS[card_drawn_name]["attack"]
+		new_card.get_node("Defense").text = str(Global.card_database.CARDS[card_drawn_name]["defense"])
+		new_card.defense = Global.card_database.CARDS[card_drawn_name]["defense"]
 	else:
 		new_card.get_node("Defense").visible = false
 		new_card.get_node("Attack").visible = false
 	
-	new_card.get_node("Effect").text = str(card_database_reference.CARDS[card_drawn_name]["effect"])
-	var card_image_path = str(card_database_reference.CARDS[card_drawn_name]["image"])
+	new_card.get_node("Effect").text = str(Global.card_database.CARDS[card_drawn_name]["effect"])
+	var card_image_path = str(Global.card_database.CARDS[card_drawn_name]["image"])
 	var card_texture = load(card_image_path)
 	var card_image = card_texture.get_image()
 	card_image.resize(Global.CARD_WIDTH, Global.CARD_HEIGHT)
