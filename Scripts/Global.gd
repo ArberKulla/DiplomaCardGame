@@ -28,11 +28,7 @@ const CARD_MAKER_SCENE_PATH = "res://Scenes/CardMaker.tscn"
 const FIELD_SCENE_PATH = "res://Scenes/Field.tscn"
 
 #SCENE PANELS
-const SUMMON_PANEL_SCENE_PATH = "res://Scenes/Panels/SummonPanel.tscn"
-const SPECIAL_NORMAL_SUMMON_SCENE_PATH = "res://Scenes/Panels/SpecialSummonScreen.tscn"
-const SPECIAL_SUMMON_SCENE_PATH = "res://Scenes/Panels/SpecialSummonOnlyScreen.tscn"
-const SPELL_SUMMON_SCENE_PATH = "res://Scenes/Panels/SpellSummonScreen.tscn"
-const TRAP_SUMMON_SCENE_PATH = "res://Scenes/Panels/TrapSummonScreen.tscn"
+const SUMMON_PANEL_SCENE_PATH = "res://Scenes/SummonPanel.tscn"
 
 
 #Refs
