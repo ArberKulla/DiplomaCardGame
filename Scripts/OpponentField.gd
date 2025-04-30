@@ -1,13 +1,21 @@
-extends Node2D
+extends Control
 class_name OpponentField
 
 var turn_player = false
-@onready var opponent_health = $Health
-@onready var opponent_deck = $OpponentDeck
-@onready var opponent_hand = $OpponentHand
-@onready var graveyard = $Graveyard
-@onready var monster_card_slots = [$M1,$M2,$M3,$M4,$M5]
-
+@onready var opponent_health = $LifePoints/Health
+@onready var opponent_hand = $"../OpponentHand"
+@onready var graveyard = $CardSlots/Monster/Graveyard
+@onready var monster_card_slots = [$CardSlots/Monster/M1,$CardSlots/Monster/M2,$CardSlots/Monster/M3,$CardSlots/Monster/M4,$CardSlots/Monster/M5]
+@onready var M1 =$CardSlots/Monster/M1
+@onready var M2 = $CardSlots/Monster/M2
+@onready var M3 = $CardSlots/Monster/M3
+@onready var M4 = $CardSlots/Monster/M4
+@onready var M5 =$CardSlots/Monster/M5
+@onready var S1 = $CardSlots/Magic/S1
+@onready var S2 =$CardSlots/Magic/S2
+@onready var S3 =$CardSlots/Magic/S3
+@onready var S4 =$CardSlots/Magic/S4
+@onready var S5 =$CardSlots/Magic/S5
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	Global.opponent_field = self

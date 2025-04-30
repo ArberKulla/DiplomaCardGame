@@ -1,11 +1,11 @@
-[gd_scene load_steps=8 format=3 uid="uid://dk6w5cjm7uq0w"]
+[gd_scene load_steps=8 format=3 uid="uid://cw5iy02yb663o"]
 
-[ext_resource type="Script" path="res://Scripts/OpponentCard.gd" id="1_4irfx"]
-[ext_resource type="Texture2D" uid="uid://bpvuxie2jb58t" path="res://Assets/Deck.png" id="2_s7oyf"]
-[ext_resource type="Texture2D" uid="uid://bvqb5fylq4tmj" path="res://Assets/pbptw9.png" id="3_gut3r"]
+[ext_resource type="Script" path="res://Scripts/OpponentCard.gd" id="1_dxxnh"]
+[ext_resource type="Texture2D" uid="uid://bpvuxie2jb58t" path="res://Assets/Deck.png" id="2_j8ak0"]
+[ext_resource type="Texture2D" uid="uid://bvqb5fylq4tmj" path="res://Assets/pbptw9.png" id="3_vcwr6"]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_u0d4h"]
-size = Vector2(133, 192)
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_v7djs"]
+size = Vector2(111, 162)
 
 [sub_resource type="Animation" id="Animation_dxtl8"]
 length = 0.001
@@ -43,7 +43,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(0.744444, 0.720755)]
+"values": [Vector2(0.622222, 0.615094)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -130,7 +130,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(0.75, 0.72), Vector2(0.1, 0.75), Vector2(0.75, 0.7)]
+"values": [Vector2(0.7, 0.61), Vector2(0.1, 0.6), Vector2(0.5, 0.6)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -187,61 +187,86 @@ _data = {
 "flip": SubResource("Animation_xcbfq")
 }
 
-[node name="Card" type="Node2D"]
-position = Vector2(120, 110)
-script = ExtResource("1_4irfx")
+[node name="OpponentCard" type="Control"]
+custom_minimum_size = Vector2(110, 160)
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -60.0
+offset_top = -80.0
+offset_right = 50.0
+offset_bottom = 80.0
+grow_horizontal = 2
+grow_vertical = 2
+pivot_offset = Vector2(60, 80)
+mouse_filter = 1
+script = ExtResource("1_dxxnh")
 
 [node name="CardBackImage" type="Sprite2D" parent="."]
-position = Vector2(-0.499996, -1)
-scale = Vector2(0.744444, 0.720755)
-texture = ExtResource("2_s7oyf")
+position = Vector2(54, 80)
+scale = Vector2(0.622222, 0.615094)
+texture = ExtResource("2_j8ak0")
 
 [node name="CardImage" type="Sprite2D" parent="."]
 z_index = -1
-position = Vector2(-2, -1)
+position = Vector2(57.4, 79)
 scale = Vector2(0.35, 0.5)
-texture = ExtResource("3_gut3r")
+texture = ExtResource("3_vcwr6")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 8
 collision_mask = 8
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-1.5, -2)
-shape = SubResource("RectangleShape2D_u0d4h")
+position = Vector2(53.5, 80)
+shape = SubResource("RectangleShape2D_v7djs")
 
 [node name="Attack" type="RichTextLabel" parent="."]
 modulate = Color(0, 0, 0, 0)
-offset_left = -64.0
-offset_top = 76.0
-offset_right = -24.0
-offset_bottom = 116.0
+layout_mode = 0
+offset_top = 134.0
+offset_right = 40.0
+offset_bottom = 174.0
 text = "0000"
+metadata/_edit_use_anchors_ = true
 
 [node name="Defense" type="RichTextLabel" parent="."]
 modulate = Color(0, 0, 0, 0)
-offset_left = 28.0
-offset_top = 76.0
-offset_right = 87.0
-offset_bottom = 116.0
+layout_mode = 0
+offset_left = 57.0
+offset_top = 126.0
+offset_right = 116.0
+offset_bottom = 160.0
 text = "0000"
+metadata/_edit_use_anchors_ = true
 
 [node name="Stars" type="RichTextLabel" parent="."]
 modulate = Color(0, 0, 0, 0)
-offset_left = 40.0
-offset_top = -96.0
-offset_right = 80.0
-offset_bottom = -56.0
+layout_mode = 0
+offset_left = 79.0
+offset_right = 119.0
+offset_bottom = 40.0
 text = "12"
+metadata/_edit_use_anchors_ = true
 
 [node name="Effect" type="RichTextLabel" parent="."]
 modulate = Color(0, 0, 0, 0)
-offset_left = -66.0
-offset_top = 25.0
-offset_right = 62.0
-offset_bottom = 93.0
+layout_mode = 0
+offset_left = 1.0
+offset_top = 92.0
+offset_right = 114.0
+offset_bottom = 159.0
+metadata/_edit_use_anchors_ = true
 
 [node name="Flip" type="AnimationPlayer" parent="."]
 libraries = {
 "": SubResource("AnimationLibrary_6noy0")
 }
+
+[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
+[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

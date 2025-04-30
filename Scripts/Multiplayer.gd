@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 class_name Multiplayer
 
 var peer = ENetMultiplayerPeer.new()
@@ -6,8 +6,8 @@ const PORT = 200
 const SERVER_ADDRESS = "localhost"
 var turn_player
 
-@onready var player_field_scene = preload(Global.PLAYER_FIELD_SCENE_PATH)
-@onready var opponent_field_scene = preload(Global.OPPONENT_FIELD_SCENE_PATH)
+@onready var field = preload(Global.FIELD_SCENE_PATH)
+
 
 func _on_host_button_pressed() -> void:
 	disable_buttons()
@@ -17,12 +17,8 @@ func _on_host_button_pressed() -> void:
 	multiplayer.multiplayer_peer = peer
 		
 	multiplayer.peer_connected.connect(_on_peer_connected)
-	
-	var player_scene = player_field_scene.instantiate()
-	var opponent_scene = opponent_field_scene.instantiate()
-	
-	add_child(opponent_scene)
-	add_child(player_scene)
+
+	add_child(field.instantiate())
 
 
 func _on_join_button_pressed() -> void:
@@ -32,11 +28,7 @@ func _on_join_button_pressed() -> void:
 	
 	multiplayer.multiplayer_peer = peer
 	
-	var player_scene = player_field_scene.instantiate()
-	add_child(player_scene)
-	
-	var opponent_scene = opponent_field_scene.instantiate()
-	add_child(opponent_scene)
+	add_child(field.instantiate())
 	
 	multiplayer.peer_connected.connect(_on_client_connected)
 

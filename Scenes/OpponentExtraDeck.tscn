@@ -1,9 +1,8 @@
-[gd_scene load_steps=3 format=3 uid="uid://yjhfve4yhisp"]
+[gd_scene load_steps=2 format=3 uid="uid://dskyaf0ac0a7b"]
 
-[ext_resource type="Texture2D" uid="uid://bpvuxie2jb58t" path="res://Assets/Deck.png" id="1_n0xon"]
-[ext_resource type="Script" path="res://Scripts/OpponentDeck.gd" id="1_o2a8b"]
+[ext_resource type="Texture2D" uid="uid://bpvuxie2jb58t" path="res://Assets/Deck.png" id="2_4y4oc"]
 
-[node name="OpponentDeck" type="Control"]
+[node name="OpponentExtraDeck" type="Control"]
 custom_minimum_size = Vector2(90, 130)
 layout_mode = 3
 anchor_top = -0.000347834
@@ -13,13 +12,12 @@ offset_top = 0.320007
 offset_right = 0.159996
 size_flags_horizontal = 8
 size_flags_vertical = 4
-script = ExtResource("1_o2a8b")
 metadata/_edit_use_anchors_ = true
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(38.25, 57.5625)
 scale = Vector2(0.430556, 0.425943)
-texture = ExtResource("1_n0xon")
+texture = ExtResource("2_4y4oc")
 
 [node name="CardCount" type="RichTextLabel" parent="."]
 layout_mode = 0

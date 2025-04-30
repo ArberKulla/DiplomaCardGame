@@ -1,9 +1,10 @@
-extends Node2D
+extends Control
 
 @onready var card_image = $CardImage
 @onready var flip_animation = $Flip
 
 var card_type
+var card_name
 var starting_position
 var hand_array_position
 var hand_position

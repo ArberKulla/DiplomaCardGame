@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 class_name Card
 
 signal hovered
@@ -7,19 +7,34 @@ signal hovered_off
 var card_name
 var hand_array_position
 var hand_position
+var field_state
 var card_slot_card_is_in
 var card_type
 var attack
 var defense
 var attack_count = 1
 var max_attack_count = 1
+var highlighted = false
 
 @onready var card_image = $CardImage
+@onready var selected = $Selected
 @onready var flip_animation = $Flip
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	get_parent().connect_card_signals(self) # Replace with function body.
+	Global.card_manager.connect_card_signals(self) # Replace with function body.
+
+func highlight():
+	if !highlighted:
+		highlighted = true
+		global_position.y=Global.player_hand.global_position.y-10
+		z_index = 2
+
+func unhighlight():
+	if highlighted:
+		highlighted = false
+		global_position.y=Global.player_hand.global_position.y
+		z_index = 1
 
 func serialize() -> Dictionary:
 	var data = {
@@ -54,9 +69,9 @@ func unserialize(data: Dictionary):
 		var tex = ImageTexture.create_from_image(img)
 		get_node(card_image).texture = tex  # Assign texture
 
-func _on_area_2d_mouse_entered() -> void:
+func _on_mouse_entered() -> void:
 	hovered.emit(self)
 
 
-func _on_area_2d_mouse_exited() -> void:
+func _on_mouse_exited() -> void:
 	hovered_off.emit(self)

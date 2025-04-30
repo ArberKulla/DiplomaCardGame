@@ -1,0 +1,187 @@
+[gd_scene load_steps=14 format=3 uid="uid://cchw0jt0v5tqx"]
+
+[ext_resource type="Script" path="res://Scripts/PlayerField.gd" id="1_58dsa"]
+[ext_resource type="Script" path="res://Scripts/InputManager.gd" id="2_6kkr6"]
+[ext_resource type="Script" path="res://Scripts/CardManager.gd" id="3_l0hir"]
+[ext_resource type="PackedScene" uid="uid://cowi7ndpcwtkc" path="res://Scenes/Deck.tscn" id="4_asl5y"]
+[ext_resource type="Script" path="res://Scripts/PlayerDeck.gd" id="5_vrbgb"]
+[ext_resource type="Script" path="res://Scripts/PlayerHand.gd" id="6_qf22u"]
+[ext_resource type="PackedScene" uid="uid://b78mmctmruuyg" path="res://Scenes/CardSlot.tscn" id="7_7uuch"]
+[ext_resource type="Script" path="res://Scripts/GraveyardCardSlot.gd" id="8_ukoot"]
+[ext_resource type="Script" path="res://Scripts/BattleManager.gd" id="9_kemcm"]
+[ext_resource type="Script" path="res://Scripts/MonsterCardSlot.gd" id="10_21ynt"]
+[ext_resource type="Script" path="res://Scripts/MagicCardSlot.gd" id="11_xkj8t"]
+[ext_resource type="Script" path="res://Scripts/FieldCardSlot.gd" id="12_uji28"]
+[ext_resource type="PackedScene" uid="uid://cyditxrtuk0vr" path="res://Scenes/PlayerExtraDeck.tscn" id="13_wmjqu"]
+
+[node name="PlayerField" type="Node2D"]
+script = ExtResource("1_58dsa")
+
+[node name="InputManager" type="Node2D" parent="."]
+script = ExtResource("2_6kkr6")
+
+[node name="CardManager" type="Node2D" parent="."]
+script = ExtResource("3_l0hir")
+
+[node name="PlayerDeck" parent="." instance=ExtResource("4_asl5y")]
+position = Vector2(1160, 810)
+scale = Vector2(0.8, 0.8)
+script = ExtResource("5_vrbgb")
+
+[node name="PlayerHand" type="Node2D" parent="."]
+script = ExtResource("6_qf22u")
+
+[node name="Graveyard" parent="." instance=ExtResource("7_7uuch")]
+z_index = -5
+offset_left = 1000.0
+offset_top = 580.0
+offset_right = 1080.0
+offset_bottom = 695.0
+scale = Vector2(0.6, 0.6)
+script = ExtResource("8_ukoot")
+
+[node name="BattleTimer" type="Timer" parent="."]
+one_shot = true
+
+[node name="BattleManager" type="Node" parent="."]
+script = ExtResource("9_kemcm")
+
+[node name="EndTurnButton" type="Button" parent="."]
+visible = false
+offset_left = 151.0
+offset_top = 446.0
+offset_right = 265.0
+offset_bottom = 484.0
+disabled = true
+text = "End Turn"
+
+[node name="Health" type="RichTextLabel" parent="."]
+offset_left = 238.0
+offset_top = 793.0
+offset_right = 278.0
+offset_bottom = 833.0
+scale = Vector2(2, 2)
+text = "0"
+
+[node name="TurnCounter" type="RichTextLabel" parent="."]
+offset_left = 1110.0
+offset_top = 356.0
+offset_right = 1187.0
+offset_bottom = 396.0
+scale = Vector2(2.5, 2.5)
+text = "Turn: 1"
+
+[node name="M1" parent="." instance=ExtResource("7_7uuch")]
+z_index = -5
+offset_left = 440.0
+offset_top = 580.0
+offset_right = 520.0
+offset_bottom = 695.0
+scale = Vector2(0.6, 0.6)
+script = ExtResource("10_21ynt")
+
+[node name="M2" parent="." instance=ExtResource("7_7uuch")]
+z_index = -5
+offset_left = 530.0
+offset_top = 580.0
+offset_right = 610.0
+offset_bottom = 695.0
+scale = Vector2(0.6, 0.6)
+script = ExtResource("10_21ynt")
+
+[node name="M3" parent="." instance=ExtResource("7_7uuch")]
+z_index = -5
+offset_left = 620.0
+offset_top = 580.0
+offset_right = 700.0
+offset_bottom = 695.0
+scale = Vector2(0.6, 0.6)
+script = ExtResource("10_21ynt")
+
+[node name="M4" parent="." instance=ExtResource("7_7uuch")]
+z_index = -5
+offset_left = 710.0
+offset_top = 580.0
+offset_right = 790.0
+offset_bottom = 695.0
+scale = Vector2(0.6, 0.6)
+script = ExtResource("10_21ynt")
+
+[node name="M5" parent="." instance=ExtResource("7_7uuch")]
+z_index = -5
+offset_left = 800.0
+offset_top = 580.0
+offset_right = 880.0
+offset_bottom = 695.0
+scale = Vector2(0.6, 0.6)
+script = ExtResource("10_21ynt")
+
+[node name="S1" parent="." instance=ExtResource("7_7uuch")]
+z_index = -5
+offset_left = 440.0
+offset_top = 700.0
+offset_right = 520.0
+offset_bottom = 815.0
+scale = Vector2(0.6, 0.6)
+script = ExtResource("11_xkj8t")
+
+[node name="S2" parent="." instance=ExtResource("7_7uuch")]
+z_index = -5
+offset_left = 530.0
+offset_top = 700.0
+offset_right = 610.0
+offset_bottom = 815.0
+scale = Vector2(0.6, 0.6)
+script = ExtResource("11_xkj8t")
+
+[node name="S3" parent="." instance=ExtResource("7_7uuch")]
+z_index = -5
+offset_left = 620.0
+offset_top = 700.0
+offset_right = 700.0
+offset_bottom = 815.0
+scale = Vector2(0.6, 0.6)
+script = ExtResource("11_xkj8t")
+
+[node name="S4" parent="." instance=ExtResource("7_7uuch")]
+z_index = -5
+offset_left = 710.0
+offset_top = 700.0
+offset_right = 790.0
+offset_bottom = 815.0
+scale = Vector2(0.6, 0.6)
+script = ExtResource("11_xkj8t")
+
+[node name="S5" parent="." instance=ExtResource("7_7uuch")]
+z_index = -5
+offset_left = 800.0
+offset_top = 700.0
+offset_right = 880.0
+offset_bottom = 815.0
+scale = Vector2(0.6, 0.6)
+script = ExtResource("11_xkj8t")
+
+[node name="F1" parent="." instance=ExtResource("7_7uuch")]
+z_index = -5
+offset_left = 350.0
+offset_top = 580.0
+offset_right = 430.0
+offset_bottom = 695.0
+scale = Vector2(0.6, 0.6)
+script = ExtResource("12_uji28")
+
+[node name="Ace1" parent="." instance=ExtResource("7_7uuch")]
+z_index = -5
+offset_left = 530.0
+offset_top = 460.0
+offset_right = 610.0
+offset_bottom = 575.0
+scale = Vector2(0.6, 0.6)
+
+[node name="PlayerExtraDeck" parent="." instance=ExtResource("13_wmjqu")]
+offset_left = 156.0
+offset_top = 538.0
+offset_right = 246.0
+offset_bottom = 668.0
+
+[connection signal="pressed" from="EndTurnButton" to="BattleManager" method="_on_end_turn_button_pressed"]

@@ -1,0 +1,382 @@
+[gd_scene load_steps=19 format=3 uid="uid://boi11tv2suh4d"]
+
+[ext_resource type="PackedScene" uid="uid://dskyaf0ac0a7b" path="res://Scenes/OpponentExtraDeck.tscn" id="1_hjurw"]
+[ext_resource type="Script" path="res://Scripts/OpponentHand.gd" id="2_83u67"]
+[ext_resource type="PackedScene" uid="uid://yjhfve4yhisp" path="res://Scenes/OpponentDeck.tscn" id="3_yvmj7"]
+[ext_resource type="Script" path="res://Scripts/OpponentField.gd" id="4_nywx1"]
+[ext_resource type="PackedScene" uid="uid://b78mmctmruuyg" path="res://Scenes/CardSlot.tscn" id="5_21ew3"]
+[ext_resource type="Script" path="res://Scripts/MagicCardSlot.gd" id="6_y3yku"]
+[ext_resource type="Script" path="res://Scripts/GraveyardCardSlot.gd" id="7_oaxj6"]
+[ext_resource type="PackedScene" uid="uid://bocjcnic3d3a4" path="res://Scenes/OpponentCardSlot.tscn" id="8_8ssli"]
+[ext_resource type="Script" path="res://Scripts/FieldCardSlot.gd" id="9_ewws3"]
+[ext_resource type="Script" path="res://Scripts/MonsterCardSlot.gd" id="10_h3r4f"]
+[ext_resource type="Script" path="res://Scripts/PlayerField.gd" id="11_248lq"]
+[ext_resource type="PackedScene" uid="uid://cyditxrtuk0vr" path="res://Scenes/PlayerExtraDeck.tscn" id="12_fb8s7"]
+[ext_resource type="Script" path="res://Scripts/PlayerHand.gd" id="13_nnrfu"]
+[ext_resource type="PackedScene" uid="uid://1aa1icwv84dq" path="res://Scenes/PlayerDeck.tscn" id="14_58fc4"]
+[ext_resource type="Script" path="res://Scripts/PlayerDeck.gd" id="15_mnvln"]
+[ext_resource type="Script" path="res://Scripts/InputManager.gd" id="16_pad3d"]
+[ext_resource type="Script" path="res://Scripts/CardManager.gd" id="17_kwm4x"]
+[ext_resource type="Script" path="res://Scripts/BattleManager.gd" id="18_fh4b5"]
+
+[node name="Field" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TopBox" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/TopBox"]
+layout_mode = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_top = 20
+
+[node name="OpponentExtraDeck" parent="VBoxContainer/TopBox" instance=ExtResource("1_hjurw")]
+layout_mode = 2
+
+[node name="OpponentHand" type="HBoxContainer" parent="VBoxContainer/TopBox"]
+layout_mode = 2
+size_flags_horizontal = 6
+script = ExtResource("2_83u67")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/TopBox"]
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/margin_top = 20
+theme_override_constants/margin_right = 20
+
+[node name="OpponentDeck" parent="VBoxContainer/TopBox/MarginContainer" instance=ExtResource("3_yvmj7")]
+layout_mode = 2
+
+[node name="OpponentField" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+script = ExtResource("4_nywx1")
+metadata/_edit_use_anchors_ = true
+
+[node name="DeckSlot" type="VBoxContainer" parent="VBoxContainer/OpponentField"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Seperator2" type="Control" parent="VBoxContainer/OpponentField/DeckSlot"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+
+[node name="CardSlots" type="VBoxContainer" parent="VBoxContainer/OpponentField"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 8
+alignment = 2
+
+[node name="Magic" type="HBoxContainer" parent="VBoxContainer/OpponentField/CardSlots"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Seperator" type="Control" parent="VBoxContainer/OpponentField/CardSlots/Magic"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="S1" parent="VBoxContainer/OpponentField/CardSlots/Magic" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+script = ExtResource("6_y3yku")
+
+[node name="S2" parent="VBoxContainer/OpponentField/CardSlots/Magic" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+script = ExtResource("6_y3yku")
+
+[node name="S3" parent="VBoxContainer/OpponentField/CardSlots/Magic" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+script = ExtResource("6_y3yku")
+
+[node name="S4" parent="VBoxContainer/OpponentField/CardSlots/Magic" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+script = ExtResource("6_y3yku")
+
+[node name="S5" parent="VBoxContainer/OpponentField/CardSlots/Magic" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+script = ExtResource("6_y3yku")
+
+[node name="Seperator2" type="Control" parent="VBoxContainer/OpponentField/CardSlots/Magic"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+
+[node name="Banished" parent="VBoxContainer/OpponentField/CardSlots/Magic" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+script = ExtResource("7_oaxj6")
+
+[node name="Monster" type="HBoxContainer" parent="VBoxContainer/OpponentField/CardSlots"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Field" parent="VBoxContainer/OpponentField/CardSlots/Monster" instance=ExtResource("8_8ssli")]
+layout_mode = 2
+script = ExtResource("9_ewws3")
+
+[node name="M1" parent="VBoxContainer/OpponentField/CardSlots/Monster" instance=ExtResource("8_8ssli")]
+layout_mode = 2
+script = ExtResource("10_h3r4f")
+
+[node name="M2" parent="VBoxContainer/OpponentField/CardSlots/Monster" instance=ExtResource("8_8ssli")]
+layout_mode = 2
+script = ExtResource("10_h3r4f")
+
+[node name="M3" parent="VBoxContainer/OpponentField/CardSlots/Monster" instance=ExtResource("8_8ssli")]
+layout_mode = 2
+script = ExtResource("10_h3r4f")
+
+[node name="M4" parent="VBoxContainer/OpponentField/CardSlots/Monster" instance=ExtResource("8_8ssli")]
+layout_mode = 2
+script = ExtResource("10_h3r4f")
+
+[node name="M5" parent="VBoxContainer/OpponentField/CardSlots/Monster" instance=ExtResource("8_8ssli")]
+layout_mode = 2
+script = ExtResource("10_h3r4f")
+
+[node name="Seperator" type="Control" parent="VBoxContainer/OpponentField/CardSlots/Monster"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+
+[node name="Graveyard" parent="VBoxContainer/OpponentField/CardSlots/Monster" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+script = ExtResource("7_oaxj6")
+
+[node name="LifePoints" type="VBoxContainer" parent="VBoxContainer/OpponentField"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 20
+
+[node name="Seperator2" type="Control" parent="VBoxContainer/OpponentField/LifePoints"]
+layout_mode = 2
+
+[node name="Health" type="RichTextLabel" parent="VBoxContainer/OpponentField/LifePoints"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "[center]LP: 0"
+fit_content = true
+
+[node name="LinkZone" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Seperator3" type="Control" parent="VBoxContainer/LinkZone"]
+custom_minimum_size = Vector2(480, 0)
+layout_mode = 2
+
+[node name="Ace" parent="VBoxContainer/LinkZone" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+
+[node name="Seperator" type="Control" parent="VBoxContainer/LinkZone"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="Ace2" parent="VBoxContainer/LinkZone" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+
+[node name="Seperator2" type="Control" parent="VBoxContainer/LinkZone"]
+custom_minimum_size = Vector2(265, 0)
+layout_mode = 2
+
+[node name="TurnCounter" type="RichTextLabel" parent="VBoxContainer/LinkZone"]
+clip_contents = false
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+theme_override_font_sizes/normal_font_size = 35
+bbcode_enabled = true
+text = "[center]Turn: 1"
+fit_content = true
+scroll_active = false
+
+[node name="PlayerField" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 0
+script = ExtResource("11_248lq")
+metadata/_edit_use_anchors_ = true
+
+[node name="LifePoints" type="VBoxContainer" parent="VBoxContainer/PlayerField"]
+custom_minimum_size = Vector2(200, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+theme_override_constants/separation = 20
+
+[node name="EndTurnButton" type="Button" parent="VBoxContainer/PlayerField/LifePoints"]
+visible = false
+layout_mode = 2
+size_flags_horizontal = 4
+disabled = true
+text = "End Turn"
+
+[node name="Seperator" type="Control" parent="VBoxContainer/PlayerField/LifePoints"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="Health" type="RichTextLabel" parent="VBoxContainer/PlayerField/LifePoints"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+theme_override_font_sizes/normal_font_size = 30
+bbcode_enabled = true
+text = "[center]LP: 0"
+fit_content = true
+
+[node name="Seperator2" type="Control" parent="VBoxContainer/PlayerField/LifePoints"]
+layout_mode = 2
+
+[node name="CardSlots" type="VBoxContainer" parent="VBoxContainer/PlayerField"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 0
+
+[node name="Monster" type="HBoxContainer" parent="VBoxContainer/PlayerField/CardSlots"]
+layout_mode = 2
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Field" parent="VBoxContainer/PlayerField/CardSlots/Monster" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+script = ExtResource("9_ewws3")
+
+[node name="M1" parent="VBoxContainer/PlayerField/CardSlots/Monster" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+script = ExtResource("10_h3r4f")
+
+[node name="M2" parent="VBoxContainer/PlayerField/CardSlots/Monster" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+script = ExtResource("10_h3r4f")
+
+[node name="M3" parent="VBoxContainer/PlayerField/CardSlots/Monster" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+script = ExtResource("10_h3r4f")
+
+[node name="M4" parent="VBoxContainer/PlayerField/CardSlots/Monster" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+script = ExtResource("10_h3r4f")
+
+[node name="M5" parent="VBoxContainer/PlayerField/CardSlots/Monster" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+script = ExtResource("10_h3r4f")
+
+[node name="Seperator" type="Control" parent="VBoxContainer/PlayerField/CardSlots/Monster"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+
+[node name="Graveyard" parent="VBoxContainer/PlayerField/CardSlots/Monster" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+script = ExtResource("7_oaxj6")
+
+[node name="Magic" type="HBoxContainer" parent="VBoxContainer/PlayerField/CardSlots"]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 10
+alignment = 1
+
+[node name="Seperator" type="Control" parent="VBoxContainer/PlayerField/CardSlots/Magic"]
+custom_minimum_size = Vector2(80, 0)
+layout_mode = 2
+
+[node name="S1" parent="VBoxContainer/PlayerField/CardSlots/Magic" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+script = ExtResource("6_y3yku")
+
+[node name="S2" parent="VBoxContainer/PlayerField/CardSlots/Magic" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+script = ExtResource("6_y3yku")
+
+[node name="S3" parent="VBoxContainer/PlayerField/CardSlots/Magic" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+script = ExtResource("6_y3yku")
+
+[node name="S4" parent="VBoxContainer/PlayerField/CardSlots/Magic" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+script = ExtResource("6_y3yku")
+
+[node name="S5" parent="VBoxContainer/PlayerField/CardSlots/Magic" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+script = ExtResource("6_y3yku")
+
+[node name="Seperator2" type="Control" parent="VBoxContainer/PlayerField/CardSlots/Magic"]
+custom_minimum_size = Vector2(40, 0)
+layout_mode = 2
+
+[node name="Banished" parent="VBoxContainer/PlayerField/CardSlots/Magic" instance=ExtResource("5_21ew3")]
+layout_mode = 2
+script = ExtResource("7_oaxj6")
+
+[node name="DeckSlot" type="VBoxContainer" parent="VBoxContainer/PlayerField"]
+custom_minimum_size = Vector2(250, 0)
+layout_mode = 2
+size_flags_horizontal = 8
+
+[node name="Seperator" type="Control" parent="VBoxContainer/PlayerField/DeckSlot"]
+layout_mode = 2
+size_flags_vertical = 3
+
+[node name="BottomBox" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+theme_override_constants/separation = 10
+
+[node name="MarginContainer2" type="MarginContainer" parent="VBoxContainer/BottomBox"]
+layout_mode = 2
+size_flags_horizontal = 2
+theme_override_constants/margin_left = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="PlayerExtraDeck" parent="VBoxContainer/BottomBox/MarginContainer2" instance=ExtResource("12_fb8s7")]
+layout_mode = 2
+size_flags_horizontal = 0
+
+[node name="PlayerHand" type="HBoxContainer" parent="VBoxContainer/BottomBox"]
+layout_mode = 2
+size_flags_horizontal = 4
+theme_override_constants/separation = 10
+alignment = 1
+script = ExtResource("13_nnrfu")
+
+[node name="MarginContainer" type="MarginContainer" parent="VBoxContainer/BottomBox"]
+layout_mode = 2
+size_flags_horizontal = 10
+theme_override_constants/margin_right = 20
+theme_override_constants/margin_bottom = 20
+
+[node name="PlayerDeck" parent="VBoxContainer/BottomBox/MarginContainer" instance=ExtResource("14_58fc4")]
+layout_mode = 2
+script = ExtResource("15_mnvln")
+
+[node name="InputManager" type="Node2D" parent="."]
+script = ExtResource("16_pad3d")
+
+[node name="CardManager" type="Node2D" parent="."]
+script = ExtResource("17_kwm4x")
+
+[node name="BattleManager" type="Node" parent="."]
+script = ExtResource("18_fh4b5")
+
+[node name="BattleTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="pressed" from="VBoxContainer/PlayerField/LifePoints/EndTurnButton" to="BattleManager" method="_on_end_turn_button_pressed"]

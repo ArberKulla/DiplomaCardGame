@@ -1,8 +1,6 @@
 extends Control
 
 @onready var singleplayer_level_path = preload(Global.SINGLEPLAYER_LEVEL_SCENE_PATH)
-@onready var player_field_scene = preload(Global.PLAYER_FIELD_SCENE_PATH)
-@onready var opponent_field_scene = preload(Global.OPPONENT_FIELD_SCENE_PATH)
 
 func _on_level_1_pressed() -> void:
 	load_level(1)

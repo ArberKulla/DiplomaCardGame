@@ -78,6 +78,11 @@ custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
 text = "Multiplayer"
 
+[node name="Card Maker" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
+custom_minimum_size = Vector2(120, 60)
+layout_mode = 2
+text = "Card Maker"
+
 [node name="Settings" type="Button" parent="MarginContainer/HBoxContainer/VBoxContainer"]
 custom_minimum_size = Vector2(120, 60)
 layout_mode = 2
@@ -90,5 +95,6 @@ text = "Exit Game"
 
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Singleplayer" to="." method="_on_singleplayer_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Multiplayer" to="." method="_on_multiplayer_pressed"]
+[connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Card Maker" to="." method="_on_card_maker_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="MarginContainer/HBoxContainer/VBoxContainer/Exit" to="." method="_on_exit_pressed"]

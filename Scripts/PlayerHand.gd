@@ -1,36 +1,56 @@
-extends Node2D
+extends Control
 class_name PlayerHand
 var player_hand = []
 
 func _ready() -> void:
 	Global.player_hand = self
 
-func add_card_to_hand(card,speed):
-	if card not in player_hand:
-		card.scale = Vector2(Global.DEFAULT_CARD_SCALE,Global.DEFAULT_CARD_SCALE)
-		player_hand.insert(player_hand.size(),card)
-		update_hand_position(speed)
-	else:
-		animate_card_to_position(card,card.hand_position,Global.DEFAULT_CARD_MOVE_SPEED)
+func add_card_to_hand(card,hand_position):
+	if hand_position==-1:
+		hand_position = player_hand.size()
+	
+	player_hand.insert(hand_position,card)
+	await animate_card_to_position(card,hand_position)
+	card.get_parent().remove_child(card)
+	add_child(card)
+	move_child(card,hand_position)
+	update_hand_position()
+	card.scale = Vector2(Global.DEFAULT_CARD_SCALE,Global.DEFAULT_CARD_SCALE)
+	
+	if Global.card_manager.selected_card_in_hand:
+		Global.card_manager.unselect_card_in_hand(Global.card_manager.selected_card_in_hand)
 
-func update_hand_position(speed):
+func update_hand_position():
 	for i in range(player_hand.size()):
-		var new_postion = Vector2(calculate_card_position(i),Global.HAND_Y_POSITION)
 		var card = player_hand[i]
 		card.hand_array_position = i
-		card.hand_position = new_postion
-		animate_card_to_position(card,new_postion,speed)
 
-func calculate_card_position(index):
-	var total_width = (player_hand.size()-1)*Global.CARD_HAND_WIDTH
-	var x_offset = (get_viewport().size.x / 2) + index * Global.CARD_HAND_WIDTH - total_width / 2  
-	return x_offset
-
-func animate_card_to_position(card, new_position,speed):
+func animate_card_to_position(card,hand_position):
+	await get_tree().process_frame
+	var target_position = Vector2(self.global_position.x+(hand_position)*(self.size.x/player_hand.size()),self.global_position.y+self.size.y/4)
 	var tween = get_tree().create_tween()
-	tween.tween_property(card,"position",new_position,speed)
+	var animation_speed = Global.DEFAULT_CARD_MOVE_SPEED
+	if card.global_position.distance_to(target_position)<100:
+		animation_speed = 0
+	tween.tween_property(card,"global_position",target_position,animation_speed)
+	await tween.finished
 
 func remove_card_from_hand(card):
 	if card in player_hand:
 		player_hand.erase(card)
-		update_hand_position(Global.DEFAULT_CARD_MOVE_SPEED)
+
+func calculate_drag_card_position(card):
+	var card_position_x = card.global_position.x
+	
+	
+	for i in range(player_hand.size()-1):
+		var card_1_x = player_hand[i].global_position.x
+		var card_2_x = player_hand[i+1].global_position.x
+		
+		if card_position_x<=card_1_x  and card_position_x<=card_2_x:
+			return 0;
+		
+		if card_position_x>=card_1_x and card_position_x<=card_2_x:
+			return i+1;
+	
+	return -1;

@@ -42,6 +42,7 @@ func end_player_turn_here_and_client_opponent(player_id):
 
 func start_player_turn():
 	current_turn_player=Global.ENTITY_ENUM.PLAYER
+	Global.input_manager.inputs_allowed = true
 	Global.player_field.end_turn_button.disabled=false
 	Global.player_field.end_turn_button.visible=true
 	Global.card_manager.reset_normal_summon()
@@ -49,6 +50,8 @@ func start_player_turn():
 
 
 func opponent_turn() -> void:
+	Global.input_manager.inputs_allowed = false
+	
 	if turn_counter>1:
 		Global.opponent_deck.draw_card(1)
 		await wait(1)
@@ -123,15 +126,16 @@ func attack_here_and_for_client_opponent(player_id,attacking_card,defending_card
 			attacker = Global.ENTITY_ENUM.OPPONENT
 		else:
 			attacker = Global.ENTITY_ENUM.PLAYER
-		attacking_card = Global.opponent_field.get_node(str(attacking_card)).card_in_slot
-		defending_card = Global.player_field.get_node(str(defending_card)).card_in_slot
+		attacking_card = Global.opponent_field.get(str(attacking_card)).card_in_slot
+		defending_card = Global.player_field.get(str(defending_card)).card_in_slot
 	
-	var new_pos = Vector2(defending_card.position.x,defending_card.position.y+Global.BATTLE_POS_OFFSET)
+	var old_pos = attacking_card.global_position
+	var new_pos = Vector2(defending_card.global_position.x,defending_card.global_position.y+Global.BATTLE_POS_OFFSET)
 	var tween = get_tree().create_tween()
-	tween.tween_property(attacking_card,"position",new_pos,Global.DEFAULT_CARD_MOVE_SPEED)
+	tween.tween_property(attacking_card,"global_position",new_pos,Global.DEFAULT_CARD_MOVE_SPEED)
 	await wait(0.15)
 	var tween2 = get_tree().create_tween()
-	tween2.tween_property(attacking_card,"position",attacking_card.card_slot_card_is_in.position,Global.DEFAULT_CARD_MOVE_SPEED)
+	tween2.tween_property(attacking_card,"global_position",attacking_card.card_slot_card_is_in.global_position,Global.DEFAULT_CARD_MOVE_SPEED)
 	attacking_card.z_index=0
 	
 	if is_multiplayer_game:
@@ -164,7 +168,7 @@ func direct_attack_here_and_for_client_opponent(player_id,attacking_card,attacke
 		else:
 			attacker = Global.ENTITY_ENUM.PLAYER
 		
-		attacking_card = Global.opponent_field.get_node(str(attacking_card)).card_in_slot
+		attacking_card = Global.opponent_field.get(str(attacking_card)).card_in_slot
 	
 	if attacking_card.attack_count==0:
 		return;
@@ -177,13 +181,13 @@ func direct_attack_here_and_for_client_opponent(player_id,attacking_card,attacke
 		new_pos_y = 100
 	
 	attacking_card.z_index=5
-	var new_pos = Vector2(attacking_card.position.x,new_pos_y)
+	var new_pos = Vector2(attacking_card.global_position.x,new_pos_y)
 	
 	var tween = get_tree().create_tween()
-	tween.tween_property(attacking_card,"position",new_pos,Global.DEFAULT_CARD_MOVE_SPEED)
+	tween.tween_property(attacking_card,"global_position",new_pos,Global.DEFAULT_CARD_MOVE_SPEED)
 	await wait(0.15)
 	var tween2 = get_tree().create_tween()
-	tween2.tween_property(attacking_card,"position",attacking_card.card_slot_card_is_in.position,Global.DEFAULT_CARD_MOVE_SPEED)
+	tween2.tween_property(attacking_card,"global_position",attacking_card.card_slot_card_is_in.global_position,Global.DEFAULT_CARD_MOVE_SPEED)
 	attacking_card.z_index=0
 
 func enemy_card_select(card):
@@ -206,41 +210,48 @@ func destroy_card(card,card_owner):
 	var player_id = multiplayer.get_unique_id
 	var card_slot = card.card_slot_card_is_in.name
 	destroy_card_here_and_for_client_opponent(player_id,card,card_owner)
-	rpc("destroy_card_here_and_for_client_opponent",player_id,card_slot,card_owner)
+	if is_multiplayer_game:
+		rpc("destroy_card_here_and_for_client_opponent",player_id,card_slot,card_owner)
 
 @rpc("any_peer")
 func destroy_card_here_and_for_client_opponent(player_id,card,card_owner):
+	var graveyard
 	Global.input_manager.inputs_allowed = false
 	if player_id!=multiplayer.get_unique_id:
 		if card_owner == Global.ENTITY_ENUM.PLAYER:
 			card_owner = Global.ENTITY_ENUM.OPPONENT
-			card = Global.opponent_field.get_node(str(card)).card_in_slot
+			card = Global.opponent_field.get(str(card)).card_in_slot
 		else:
 			card_owner = Global.ENTITY_ENUM.PLAYER
-			card = Global.player_field.get_node(str(card)).card_in_slot
+			card = Global.player_field.get(str(card)).card_in_slot
 	
 	var new_pos
 	if card_owner == Global.ENTITY_ENUM.PLAYER:
 		Global.card_manager.unselect_card(card)
 		card.get_node("Area2D/CollisionShape2D").disabled=true
-		new_pos = Global.player_field.graveyard.position
-		Global.player_field.graveyard.cards_inside.append(card)
+		graveyard = Global.player_field.graveyard
 		if card in player_cards_on_battlefield:
 			player_cards_on_battlefield.erase(card)
 			card.card_slot_card_is_in.get_node("Area2D/CollisionShape2D").disabled=false
 	else:
-		new_pos = Global.opponent_field.graveyard.position
-		Global.opponent_field.graveyard.cards_inside.append(card)
+		graveyard = Global.opponent_field.graveyard
 		if card in opponent_cards_on_battlefield:
 			opponent_cards_on_battlefield.erase(card)
 	
+	
+	new_pos = graveyard.global_position
+	var tween = get_tree().create_tween()
+	tween.tween_property(card,"global_position",new_pos,Global.DEFAULT_CARD_MOVE_SPEED)
+	await wait(0.15)
+	
+	graveyard.cards_inside.append(card)
+	card.get_parent().remove_child(card)
+	graveyard.add_child(card)
+	card.global_position = new_pos
 	card.card_slot_card_is_in.card_in_slot = false
 	card.card_slot_card_is_in = null
 	card.z_index=5
-	var tween = get_tree().create_tween()
-	tween.tween_property(card,"position",new_pos,Global.DEFAULT_CARD_MOVE_SPEED)
-	await wait(0.15)
-	card.z_index=0
+
 	Global.input_manager.inputs_allowed = true
 
 
@@ -257,19 +268,12 @@ func try_play_best_monster() -> void:
 		if card.attack > best_monster_card.attack:
 			best_monster_card=card
 	
-	var tween = get_tree().create_tween()
-	tween.tween_property(best_monster_card,"position",random_empty_monster_card_zone.position,Global.DEFAULT_CARD_MOVE_SPEED)
-	var tween2 = get_tree().create_tween()
-	tween2.tween_property(best_monster_card,"scale",Vector2(Global.SMALL_CARD_SCALE,Global.SMALL_CARD_SCALE),Global.DEFAULT_CARD_MOVE_SPEED)
-	best_monster_card.get_node("Flip").play("flip")
-	
-	Global.opponent_hand.remove_card_from_hand(best_monster_card)
-	best_monster_card.card_slot_card_is_in = random_empty_monster_card_zone
-	opponent_cards_on_battlefield.append(best_monster_card)
+	await Global.card_manager.play_card_on_field(best_monster_card,random_empty_monster_card_zone,Global.ENTITY_ENUM.OPPONENT)
 
 func end_opponent_turn() -> void:
 	for card in opponent_cards_on_battlefield:
 		card.attack_count = card.max_attack_count
+	turn_counter_up()
 	start_player_turn()
 
 func turn_on_end_turn_button():
@@ -338,6 +342,8 @@ func update_health_here_and_client(player_id,ammount,reciever):
 
 func on_card_play(card,card_owner):
 	var effects = card.get_node("Effect").text.split(".")
+	await wait(0.2)
+	
 	for effect in effects:
 		if effect.contains("On Play"):
 			card_effect_handle(card,card_owner,effect.split(": ")[1])
@@ -391,7 +397,6 @@ func find_cards_with_query(cards,query_term):
 	
 	for card in cards:
 		for key in query.keys():
-			push_error(query[key])
 			if str(query[key]) != "":
 				if card.get(key) == query[key]:
 					cards_found.append(card)
@@ -461,7 +466,8 @@ func _on_end_turn_button_pressed() -> void:
 	turn_counter_up()
 	if is_multiplayer_game:
 		rpc("turn_counter_up")
-	opponent_turn()
+	else:
+		opponent_turn()
 	end_player_turn()
 
 

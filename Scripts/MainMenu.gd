@@ -7,6 +7,7 @@ class_name MainMenu
 @onready var exit_button: Button = $MarginContainer/HBoxContainer/VBoxContainer/Exit
 @onready var multiplayer_menu = preload(Global.MUTLIPLAYER_MENU_SCENE_PATH)
 @onready var singleplayer_menu = preload(Global.SINGLEPLAYER_MENU_SCENE_PATH)
+@onready var card_maker_menu = preload(Global.CARD_MAKER_SCENE_PATH)
 
 
 func _on_singleplayer_pressed() -> void:
@@ -22,3 +23,7 @@ func _on_settings_pressed() -> void:
 
 func _on_exit_pressed() -> void:
 	get_tree().quit()
+
+
+func _on_card_maker_pressed() -> void:
+	get_tree().change_scene_to_packed(card_maker_menu)

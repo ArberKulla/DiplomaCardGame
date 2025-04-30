@@ -1,4 +1,4 @@
-extends Node2D
+extends Control
 class_name PlayerDeck
 
 var player_deck
@@ -21,7 +21,7 @@ func draw_here_and_for_clients_opponent(player_id,count):
 	if multiplayer.get_unique_id == player_id:
 		draw_card(count)
 	else:
-		get_parent().get_parent().get_node("OpponentField/OpponentDeck").draw_card(count)
+		Global.opponent_deck.draw_card(count)
 
 func draw_card(count):
 	for i in range(count):
@@ -35,19 +35,19 @@ func draw_card(count):
 		
 		new_card.hand_array_position = i
 		if player_deck.size()==0:
-			collision.disabled=true
 			sprite.visible=false
 			card_count.visible=false
 			break
-			
-		Global.player_hand.add_card_to_hand(new_card, Global.CARD_DRAW_SPEED)
+		
+		new_card.global_position = self.global_position
+		new_card.scale = Vector2(Global.CARD_DRAW_SCALE,Global.CARD_DRAW_SCALE)
+		await Global.player_hand.add_card_to_hand(new_card,-1)
 		new_card.flip_animation.play("flip")
-
 
 func create_card(card_drawn_name):
 	var card_scene = preload(Global.CARD_SCENE_PATH)
 	var new_card = card_scene.instantiate()
-	Global.card_manager.add_child(new_card)
+	add_child(new_card)
 	new_card.name="Card"
 	
 	new_card.card_name = card_drawn_name
@@ -65,7 +65,7 @@ func create_card(card_drawn_name):
 	var card_image_path = str(Global.card_database.CARDS[card_drawn_name]["image"])
 	var card_texture = load(card_image_path)
 	var card_image = card_texture.get_image()
-	card_image.resize(Global.CARD_WIDTH, Global.CARD_HEIGHT)
+	card_image.resize(new_card.size.x,new_card.size.y)
 	new_card.card_image.texture = ImageTexture.create_from_image(card_image)
 	
 
