@@ -8,6 +8,7 @@ var card_name
 var starting_position
 var hand_array_position
 var hand_position
+var field_state
 var attack
 var defense
 var card_slot_card_is_in

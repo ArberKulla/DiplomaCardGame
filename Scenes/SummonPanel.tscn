@@ -3,6 +3,7 @@
 [ext_resource type="Script" path="res://Scripts/SummonPanel.gd" id="1_kt7uj"]
 
 [node name="Normal Summon Screen" type="Control"]
+z_index = 5
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -45,34 +46,56 @@ size_flags_vertical = 4
 [node name="Special" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
+mouse_filter = 1
 text = "Special Summon
 "
 
 [node name="Tribute" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
+mouse_filter = 1
 text = "Tribute Summon
 "
 
 [node name="Normal" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
+mouse_filter = 1
 text = "Normal Summon"
 
 [node name="Play" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
+mouse_filter = 1
 text = "Play
 "
 
 [node name="Set" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
 visible = false
 layout_mode = 2
+mouse_filter = 1
 text = "Set
 "
 
+[node name="Attack" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+mouse_filter = 1
+text = "Attack Position
+"
+
+[node name="Defense" type="Button" parent="PanelContainer/MarginContainer/VBoxContainer"]
+visible = false
+layout_mode = 2
+mouse_filter = 1
+text = "Defense Position"
+
+[connection signal="mouse_entered" from="PanelContainer" to="." method="_on_panel_container_mouse_entered"]
+[connection signal="mouse_exited" from="PanelContainer" to="." method="_on_panel_container_mouse_exited"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Special" to="." method="_on_special_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Tribute" to="." method="_on_tribute_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Normal" to="." method="_on_normal_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Play" to="." method="_on_play_pressed"]
 [connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Set" to="." method="_on_set_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Attack" to="." method="_on_attack_pressed"]
+[connection signal="pressed" from="PanelContainer/MarginContainer/VBoxContainer/Defense" to="." method="_on_defense_pressed"]

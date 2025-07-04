@@ -17,12 +17,16 @@ var max_attack_count = 1
 var highlighted = false
 
 @onready var card_image = $CardImage
+@onready var card_back_image = $CardBackImage
 @onready var selected = $Selected
 @onready var flip_animation = $Flip
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	Global.card_manager.connect_card_signals(self) # Replace with function body.
+	var card_image = card_back_image.texture.get_image()
+	card_image.resize(size.x,size.y)
+	card_back_image.texture = ImageTexture.create_from_image(card_image)
+	Global.card_manager.connect_card_signals(self)
 
 func highlight():
 	if !highlighted:

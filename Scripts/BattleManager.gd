@@ -62,9 +62,10 @@ func opponent_turn() -> void:
 	
 	if get_attackable_cards(opponent_cards_on_battlefield).size()!=0:
 		var highest_attack_opponent_cards = sort_cards_highest_attack(get_attackable_cards(opponent_cards_on_battlefield))
-		var player_cards_to_attack = get_attackable_cards(player_cards_on_battlefield).duplicate()
 		
 		for card in highest_attack_opponent_cards:
+			var player_cards_to_attack = get_attackable_cards(player_cards_on_battlefield).duplicate()
+			
 			if player_cards_to_attack.size() == 0:
 				await direct_attack(card,Global.ENTITY_ENUM.OPPONENT)
 			else:
@@ -133,7 +134,7 @@ func attack_here_and_for_client_opponent(player_id,attacking_card,defending_card
 	var new_pos = Vector2(defending_card.global_position.x,defending_card.global_position.y+Global.BATTLE_POS_OFFSET)
 	var tween = get_tree().create_tween()
 	tween.tween_property(attacking_card,"global_position",new_pos,Global.DEFAULT_CARD_MOVE_SPEED)
-	await wait(0.15)
+	await tween.finished
 	var tween2 = get_tree().create_tween()
 	tween2.tween_property(attacking_card,"global_position",attacking_card.card_slot_card_is_in.global_position,Global.DEFAULT_CARD_MOVE_SPEED)
 	attacking_card.z_index=0
@@ -242,7 +243,11 @@ func destroy_card_here_and_for_client_opponent(player_id,card,card_owner):
 	new_pos = graveyard.global_position
 	var tween = get_tree().create_tween()
 	tween.tween_property(card,"global_position",new_pos,Global.DEFAULT_CARD_MOVE_SPEED)
-	await wait(0.15)
+	if card.field_state == Global.FIELD_STATE_ENUM.SET:
+		var tween2 = get_tree().create_tween()
+		tween2.tween_property(card,"rotation",deg_to_rad(0),Global.DEFAULT_CARD_MOVE_SPEED)
+		card.flip_animation.play("flip")
+	await tween.finished
 	
 	graveyard.cards_inside.append(card)
 	card.get_parent().remove_child(card)

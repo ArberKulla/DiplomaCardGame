@@ -8,8 +8,6 @@ var last_clicked_card
 var clicking_card
 var minimum_drag_time_elapsed = false
 
-
-
 func _ready() -> void:
 	Global.input_manager = self
 

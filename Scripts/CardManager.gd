@@ -61,7 +61,7 @@ func connect_panel_signals(panel):
 	panel.connect("play",play_spell_card)
 	#panel.connect("tribute_summon",tribute_summon_card)
 	#panel.connect("special_summon",special_summon_card)
-	#panel.connect("set_play",set_card)
+	panel.connect("set_play",set_play)
 
 
 func on_left_click_released():
@@ -113,6 +113,8 @@ func card_clicked(card):
 		if card.attack_count==0 || Global.battle_manager.current_turn_player==Global.ENTITY_ENUM.OPPONENT:
 			return
 		
+		if card.field_state == Global.FIELD_STATE_ENUM.SET || card.field_state == Global.FIELD_STATE_ENUM.DEFENSE:
+			return
 		
 		if Global.battle_manager.get_attackable_cards(Global.battle_manager.opponent_cards_on_battlefield).size()==0 && card.card_type==Global.CARD_TYPE_ENUM.MONSTER:
 			Global.battle_manager.direct_attack(card,Global.ENTITY_ENUM.PLAYER)
@@ -192,6 +194,13 @@ func attempt_to_play_card(card,card_slot):
 
 func normal_summon_card(card,card_slot):
 	normal_summoned_this_turn = true
+	card.field_state = Global.FIELD_STATE_ENUM.ATTACK
+	await play_card(card,card_slot)
+
+func set_play(card,card_slot):
+	if card.card_type == Global.CARD_TYPE_ENUM.MONSTER:
+		normal_summoned_this_turn = true
+	card.field_state = Global.FIELD_STATE_ENUM.SET
 	await play_card(card,card_slot)
 
 func play_spell_card(card,card_slot):
@@ -242,11 +251,16 @@ func play_card_on_field(card,card_slot,player):
 	if player==Global.ENTITY_ENUM.PLAYER:
 		hand = Global.player_hand
 		field = Global.battle_manager.player_cards_on_battlefield
+		
+		if card.field_state == Global.FIELD_STATE_ENUM.SET:
+			card.flip_animation.play_backwards("flip")
 	else:
 		hand = Global.opponent_hand
 		field = Global.battle_manager.opponent_cards_on_battlefield
-		card.flip_animation.play("flip")
 		
+		if card.field_state != Global.FIELD_STATE_ENUM.SET:
+			card.flip_animation.play("flip")
+	
 	card.get_parent().remove_child(card)
 	hand.remove_card_from_hand(card)
 	get_parent().add_child(card)
@@ -256,6 +270,10 @@ func play_card_on_field(card,card_slot,player):
 	card.scale = Vector2(Global.CARD_IN_SLOT_SCALE,Global.CARD_IN_SLOT_SCALE)
 	await tween.finished
 	
+	if card.field_state == Global.FIELD_STATE_ENUM.SET:
+		var tween2 = get_tree().create_tween()
+		tween2.tween_property(card,"rotation",deg_to_rad(90),Global.DEFAULT_CARD_MOVE_SPEED)
+	
 	card.get_parent().remove_child(card)
 	card_slot.add_child(card)
 	card.global_position = card_slot.global_position
@@ -264,6 +282,7 @@ func play_card_on_field(card,card_slot,player):
 	card_slot.card_in_slot = card
 	field.append(card)
 	card.z_index = 1
+
 	
 	await Global.battle_manager.on_card_play(card,player)
 

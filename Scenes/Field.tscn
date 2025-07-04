@@ -68,7 +68,6 @@ script = ExtResource("4_nywx1")
 metadata/_edit_use_anchors_ = true
 
 [node name="DeckSlot" type="VBoxContainer" parent="VBoxContainer/OpponentField"]
-custom_minimum_size = Vector2(250, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 
@@ -85,7 +84,7 @@ alignment = 2
 [node name="Magic" type="HBoxContainer" parent="VBoxContainer/OpponentField/CardSlots"]
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_constants/separation = 10
+theme_override_constants/separation = 40
 alignment = 1
 
 [node name="Seperator" type="Control" parent="VBoxContainer/OpponentField/CardSlots/Magic"]
@@ -122,7 +121,7 @@ script = ExtResource("7_oaxj6")
 
 [node name="Monster" type="HBoxContainer" parent="VBoxContainer/OpponentField/CardSlots"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 40
 alignment = 1
 
 [node name="Field" parent="VBoxContainer/OpponentField/CardSlots/Monster" instance=ExtResource("8_8ssli")]
@@ -158,7 +157,6 @@ layout_mode = 2
 script = ExtResource("7_oaxj6")
 
 [node name="LifePoints" type="VBoxContainer" parent="VBoxContainer/OpponentField"]
-custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_constants/separation = 20
@@ -167,7 +165,7 @@ theme_override_constants/separation = 20
 layout_mode = 2
 
 [node name="Health" type="RichTextLabel" parent="VBoxContainer/OpponentField/LifePoints"]
-custom_minimum_size = Vector2(250, 0)
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -183,21 +181,21 @@ theme_override_constants/separation = 10
 alignment = 1
 
 [node name="Seperator3" type="Control" parent="VBoxContainer/LinkZone"]
-custom_minimum_size = Vector2(480, 0)
+custom_minimum_size = Vector2(420, 0)
 layout_mode = 2
 
 [node name="Ace" parent="VBoxContainer/LinkZone" instance=ExtResource("5_21ew3")]
 layout_mode = 2
 
 [node name="Seperator" type="Control" parent="VBoxContainer/LinkZone"]
-custom_minimum_size = Vector2(80, 0)
+custom_minimum_size = Vector2(140, 0)
 layout_mode = 2
 
 [node name="Ace2" parent="VBoxContainer/LinkZone" instance=ExtResource("5_21ew3")]
 layout_mode = 2
 
 [node name="Seperator2" type="Control" parent="VBoxContainer/LinkZone"]
-custom_minimum_size = Vector2(265, 0)
+custom_minimum_size = Vector2(240, 0)
 layout_mode = 2
 
 [node name="TurnCounter" type="RichTextLabel" parent="VBoxContainer/LinkZone"]
@@ -217,7 +215,6 @@ script = ExtResource("11_248lq")
 metadata/_edit_use_anchors_ = true
 
 [node name="LifePoints" type="VBoxContainer" parent="VBoxContainer/PlayerField"]
-custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 theme_override_constants/separation = 20
@@ -234,7 +231,7 @@ layout_mode = 2
 size_flags_vertical = 3
 
 [node name="Health" type="RichTextLabel" parent="VBoxContainer/PlayerField/LifePoints"]
-custom_minimum_size = Vector2(250, 0)
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
@@ -253,7 +250,7 @@ size_flags_vertical = 0
 
 [node name="Monster" type="HBoxContainer" parent="VBoxContainer/PlayerField/CardSlots"]
 layout_mode = 2
-theme_override_constants/separation = 10
+theme_override_constants/separation = 40
 alignment = 1
 
 [node name="Field" parent="VBoxContainer/PlayerField/CardSlots/Monster" instance=ExtResource("5_21ew3")]
@@ -291,7 +288,7 @@ script = ExtResource("7_oaxj6")
 [node name="Magic" type="HBoxContainer" parent="VBoxContainer/PlayerField/CardSlots"]
 layout_mode = 2
 size_flags_vertical = 4
-theme_override_constants/separation = 10
+theme_override_constants/separation = 40
 alignment = 1
 
 [node name="Seperator" type="Control" parent="VBoxContainer/PlayerField/CardSlots/Magic"]
@@ -327,7 +324,7 @@ layout_mode = 2
 script = ExtResource("7_oaxj6")
 
 [node name="DeckSlot" type="VBoxContainer" parent="VBoxContainer/PlayerField"]
-custom_minimum_size = Vector2(250, 0)
+custom_minimum_size = Vector2(200, 0)
 layout_mode = 2
 size_flags_horizontal = 8
 

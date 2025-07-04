@@ -5,7 +5,7 @@
 [ext_resource type="Texture2D" uid="uid://bvqb5fylq4tmj" path="res://Assets/pbptw9.png" id="3_kdlml"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_v7djs"]
-size = Vector2(111, 162)
+size = Vector2(110, 162)
 
 [sub_resource type="Animation" id="Animation_dxtl8"]
 length = 0.001
@@ -96,6 +96,7 @@ tracks/6/keys = {
 
 [sub_resource type="Animation" id="Animation_xcbfq"]
 resource_name = "flip"
+length = 0.2
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -130,7 +131,7 @@ tracks/2/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(0.7, 0.61), Vector2(0.1, 0.6), Vector2(0.5, 0.6)]
+"values": [Vector2(1, 1), Vector2(0.1, 1), Vector2(1, 1)]
 }
 tracks/3/type = "value"
 tracks/3/imported = false
@@ -154,7 +155,7 @@ tracks/4/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
-"values": [Vector2(1, 1), Vector2(0.223958, 1.00195), Vector2(1, 1)]
+"values": [Vector2(1, 1), Vector2(0.1, 1), Vector2(1, 1)]
 }
 tracks/5/type = "value"
 tracks/5/imported = false
@@ -212,14 +213,14 @@ texture = ExtResource("2_fhsgj")
 
 [node name="CardImage" type="Sprite2D" parent="."]
 z_index = -1
-position = Vector2(57.4, 79)
+position = Vector2(54, 80)
 scale = Vector2(0.35, 0.5)
 texture = ExtResource("3_kdlml")
 
 [node name="Area2D" type="Area2D" parent="."]
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(53.5, 80)
+position = Vector2(54, 80)
 shape = SubResource("RectangleShape2D_v7djs")
 
 [node name="Attack" type="RichTextLabel" parent="."]
@@ -273,10 +274,10 @@ anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -55.0
-offset_top = -86.0
-offset_right = 60.0
-offset_bottom = 84.0
+offset_left = -58.0
+offset_top = -85.0
+offset_right = 57.0
+offset_bottom = 85.0
 grow_horizontal = 2
 grow_vertical = 2
 pivot_offset = Vector2(60, 85)
